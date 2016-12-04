@@ -1,0 +1,13 @@
+{
+    "name": "five/meta-image",
+    "description": "Web application to add, and edit image metadata",
+    "license": "GPL-3.0",
+
+    "require": {
+        "silex/silex": "~2.0",
+        "twig/twig": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {"Five\\": "src"}
+    }
+}
