@@ -2,7 +2,17 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
-$app->match('/', function(Request $request) use ($app) {
+$app->match('/', function() {
+    return 'Home';
+})
+->bind('home');
+
+$app->get('/image', function() {
+    return 'Image added';
+})
+->bind('image_added');
+
+$app->match('/ajout-image', function(Request $request) use ($app) {
     $file = $request->files->get('upload');
     if ($file !== null) {
         $fileName = md5(uniqid()) . $file->guessExtension();
@@ -11,10 +21,4 @@ $app->match('/', function(Request $request) use ($app) {
     }
     return $app['twig']->render('index.html.twig');
 }, 'GET|POST')
-->bind('home');
-
-$app->get('/image', function() {
-    return 'Image added';
-})
-->bind('image_added');
-
+->bind('add_image');
