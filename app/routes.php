@@ -3,13 +3,12 @@
 use Symfony\Component\HttpFoundation\Request;
 
 $app->match('/', function(Request $request) use ($app) {
-    $dirname = __DIR__."/../web/files/";
-    $images = glob($dirname."*.jpg");
+    $dirname = "../web/files/";
+    $images = glob($dirname . "*.jpg");
 
-    foreach($images as $image) {
-            echo '<img src="'.$image.'" /><br />';
-    }
-    return $app->redirect($app['url_generator']->generate('image_added'));
+    return $app['twig']->render('index.html.twig', array(
+        'images' => $images
+        ));
 })
 ->bind('home');
 
