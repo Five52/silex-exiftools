@@ -19,8 +19,10 @@ class ExifTools
             //get file name without ext
             $imgName = preg_replace("/\.\w*/", "", $fileName);
             //we lauch the command and create the file
-            $command = "exiftool " . self::IMG_PATH . $fileName . " -json -g > " . self::IMG_PATH . $imgName . ".json";
+            $command = "exiftool " . self::IMG_PATH . $fileName . " -G -json > " . self::IMG_PATH . $imgName .  ".json ";
             exec($command);
+            //we keep a copy of the original metadata
+            copy(self::IMG_PATH . $imgName . ".json", self::IMG_PATH . $imgName . ".json.original");
         } else {
             throw new \Exception("Error, image file doesn't exist");
         }
@@ -40,7 +42,18 @@ class ExifTools
 
             if (file_exists(self::IMG_PATH . $jsonName)) {
                 $content = file_get_contents(self::IMG_PATH . $jsonName);
-                $metaArray = json_decode($content, true)[0];
+                $json = json_decode($content, true)[0];
+                //modelize array:
+                $metaArray = [];
+                foreach ($json as $key => $value) {
+                    $str = explode(':', $key);
+                    if (array_key_exists(1, $str)) {
+                        $metaArray[$str[0]][$str[1]] = $value;
+                    } else {
+                        $metaArray[$key] = $value;
+                    }
+                    
+                }
             } else {
                 throw new \Exception("Error, json file doesn't exist");
             }
@@ -64,33 +77,31 @@ class ExifTools
             if (file_exists(self::IMG_PATH . $jsonName)) {
 
                 //pushing the change to the image (we drop the old one and push the new one instead)
-                $exifRequest = '{';
+
+                    //normalize array for json parsing:
+                $metaArray = [];
                 foreach ($meta as $category => $key) {
-                    if (is_array($meta[$category])){
-                        $exifRequest .= $category . '={';
-                        foreach ($key as $key2 => $value) {
-                            if (is_array($meta[$category][$key2])) {
-                                $exifRequest .= $key2 . '={';
-                                foreach ($value as $tag => $str) {
-                                    $exifRequest .= $tag . '=' . $str . ',';
-                                }
-                                $exifRequest .= preg_replace('/,$/', '},', $exifRequest);
-                            } else {
-                                $exifRequest .= $key2 . '=' . $value . ',';
-                            }                          
+                    if (is_array($meta[$category])) {
+                        foreach ($key as $tag => $value) {
+                            $metaArray[$category . ":" . $tag] = $value;
                         }
-                        $exifRequest .= preg_replace('/,$/', '},', $exifRequest);
                     } else {
-                        $exifRequest .= $category . '=' . $key . ',';
+                        $metaArray[$category] = $key;
                     }
                 }
-                $exifRequest .= preg_replace('/,$/', '}', $exifRequest);
 
-                $command = "exiftool -hierarchicalkeywords='" . $exifRequest . "' " . self::IMG_PATH . $fileName;
+                    //convert array in json and update the file
+                $jsonArray = json_encode($metaArray);
+                    //we keep a copy of the metadata before changing it
+                copy(self::IMG_PATH . $jsonName, self::IMG_PATH . $jsonName . ".old");
+                $file = fopen(self::IMG_PATH . $jsonName, 'w');
+                fwrite($file, $jsonArray);
+                fclose($file);
+
+                //update metada of the image:
+                $command = "exiftool -j=" . self::IMG_PATH . $jsonName . " -G -m -overwrite_original" . self::IMG_PATH . $fileName;
                 exec($command);
 
-                //generating the new json file
-                self::generateImgMeta($fileName);
             } else {
                 throw new \Exception("Error, json file doesn't exist");
             }
