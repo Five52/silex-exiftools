@@ -31,15 +31,10 @@ $app->match('/ajout-image', function(Request $request) use ($app) {
 ->bind('add_image');
 
 $app->get('/test', function(){
-    $test = ExifTools::getImgDetails("Montreal.jpg");
+    // $test = ExifTools::generateImgMeta("Montreal.jpg");
+    $test = ExifTools::getImgMeta("Montreal.jpg");
     echo '<pre>';
         var_dump($test);
-    // foreach ($test as $key => $tab) {
-    //     echo $key.':<br/>';
-    //     foreach ($tab as $column => $value) {
-    //         echo "    ".$column." : ".$value."<br/>";
-    //     }
-    // }
     echo '</pre>';
     return "doky";
 });
