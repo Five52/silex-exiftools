@@ -31,8 +31,19 @@ $app->match('/ajout-image', function(Request $request) use ($app) {
 ->bind('add_image');
 
 $app->get('/test', function(){
-    // $test = ExifTools::generateImgMeta("Montreal.jpg");
-    $test = ExifTools::getImgMeta("Montreal.jpg");
+
+    try{
+        $test = ExifTools::generateImgMeta("Montreal.jpg");
+        // $array = ExifTools::getImgMeta("Montreal.jpg");
+        // ExifTools::setImgMeta($array, "Montreal.jpg");
+        // $test = "truc";
+    } catch(Exception $e) {
+        echo '<pre>';
+        var_dump($e);
+        echo '</pre>';
+        $test = "fail";
+    }
+    
     echo '<pre>';
         var_dump($test);
     echo '</pre>';
