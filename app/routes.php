@@ -2,6 +2,8 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
+use ExifTools\ExifTools;
+
 $app->match('/', function(Request $request) use ($app) {
     $dirname = "../web/files/";
     $images = glob($dirname . "*.jpg");
@@ -27,3 +29,17 @@ $app->match('/ajout-image', function(Request $request) use ($app) {
     return $app['twig']->render('add.html.twig');
 }, 'GET|POST')
 ->bind('add_image');
+
+$app->get('/test', function(){
+    $test = ExifTools::getImgDetails("Montreal.jpg");
+    echo '<pre>';
+        var_dump($test);
+    // foreach ($test as $key => $tab) {
+    //     echo $key.':<br/>';
+    //     foreach ($tab as $column => $value) {
+    //         echo "    ".$column." : ".$value."<br/>";
+    //     }
+    // }
+    echo '</pre>';
+    return "doky";
+});
