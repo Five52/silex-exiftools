@@ -9,16 +9,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 use ExifTools\ExifTools;
 use ExifTools\Image;
+use ExifTools\ImageDAO;
 
 define('FILEDIR', __DIR__.'/../web/files');
 
 $app->match('/', function(Request $request) use ($app) {
-    $dirname = "../web/files/";
-    $images = glob($dirname . "*.jpg");
 
     return $app->render('index.html.twig', array(
-        'images' => $images
-        ));
+        'images' => ImageDAO::getAll()
+    ));
 })
 ->bind('home');
 
@@ -69,23 +68,22 @@ $app->match(
     function($id, $extension, Request $request) use ($app) {
         $image = new Image();
         $image->setId($id)->setExtension($extension);
-        // $meta = $image->getLatestMeta();
+        $meta = $image->getLatestMeta();
 
-        // $formBuilder = $app->form($meta);
-        // foreach ($meta as $key => $value) {
-        //     $formBuilder->add($key, TextType::class);
-        // }
-        // $formBuilder->add('submit', SubmitType::class, ['label' => 'Mettre à jour']);
-        // $form = $formBuilder->getForm();
+        $formBuilder = $app->form($meta);
+        foreach ($meta as $key => $value) {
+            $formBuilder->add($key, TextType::class);
+        }
+        $formBuilder->add('submit', SubmitType::class, ['label' => 'Mettre à jour']);
+        $form = $formBuilder->getForm();
 
-        // $form->handleRequest($request);
-        // if ($request->isMethod('POST') && $form->isValid()) {
-        //     var_dump($meta);
-        //     return 'ok';
-        // }
+        $form->handleRequest($request);
+        if ($request->isMethod('POST') && $form->isValid()) {
+            return 'ok';
+        }
 
         return $app->render('update.html.twig', [
-            'image' => $image
+            'form' => $form->createView()
         ]);
     }, 'GET|POST'
 )
