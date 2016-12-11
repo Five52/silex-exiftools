@@ -32,7 +32,7 @@ class ExifTools
     * Static method to return metadata from it json file.
     * @param <string>file name with ext of the img
     * @return <array>image meta
-    * @throws specific exception if doesn't find img or json file.
+    * @throws specific exception if doesn't find img file
     */
     public static function getImgMeta(string $fileName): array
     {
@@ -40,22 +40,22 @@ class ExifTools
             //get the json image name:
             $jsonName = preg_replace("/\.\w*/", ".json", $fileName);
 
-            if (file_exists(self::IMG_PATH . $jsonName)) {
-                $content = file_get_contents(self::IMG_PATH . $jsonName);
-                $json = json_decode($content, true)[0];
-                //modelize array:
-                $metaArray = [];
-                foreach ($json as $key => $value) {
-                    $str = explode(':', $key);
-                    if (array_key_exists(1, $str)) {
-                        $metaArray[$str[0]][$str[1]] = $value;
-                    } else {
-                        $metaArray[$key] = $value;
-                    }
-                    
+            //if the json file doesn't exist we generate it
+            if (!file_exists(self::IMG_PATH . $jsonName)) {
+                self::generateImgMeta($fileName);
+            }
+
+            $content = file_get_contents(self::IMG_PATH . $jsonName);
+            $json = json_decode($content, true)[0];
+            //modelize array:
+            $metaArray = [];
+            foreach ($json as $key => $value) {
+                $str = explode(':', $key);
+                if (array_key_exists(1, $str)) {
+                    $metaArray[$str[0]][$str[1]] = $value;
+                } else {
+                    $metaArray[$key] = $value;
                 }
-            } else {
-                throw new \Exception("Error, json file doesn't exist");
             }
         } else {
             throw new \Exception("Error, image file doesn't exist");
