@@ -3,10 +3,12 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use ExifTools\ExifTools;
+use ExifTools\Image;
 
 define('FILEDIR', __DIR__.'/../web/files');
 
@@ -25,37 +27,6 @@ $app->get('/image', function() {
 })
 ->bind('image_added');
 
-$app->match('/ajout-image', function(Request $request) use ($app) {
-    $file = $request->files->get('upload');
-    if ($file !== null) {
-        $fileName = md5(uniqid()) . $file->guessExtension();
-        $file->move(__DIR__."/../web/files", $fileName);
-        return $app->redirect($app['url_generator']->generate('image_added'));
-    }
-    return $app->render('add.html.twig');
-}, 'GET|POST')
-->bind('add_image');
-
-$app->get('/test', function(){
-
-    try{
-        $test = ExifTools::generateImgMeta("Montreal.jpg");
-        // $array = ExifTools::getImgMeta("Montreal.jpg");
-        // ExifTools::setImgMeta($array, "Montreal.jpg");
-        // $test = "truc";
-    } catch(Exception $e) {
-        echo '<pre>';
-        var_dump($e);
-        echo '</pre>';
-        $test = "fail";
-    }
-
-    echo '<pre>';
-        var_dump($test);
-    echo '</pre>';
-    return "doky";
-});
-
 $app->match('/add', function(Request $request) use ($app) {
     // Create file upload form
     $data = [];
@@ -73,16 +44,49 @@ $app->match('/add', function(Request $request) use ($app) {
     if ($request->isMethod('POST') && $form->isValid()) {
         $data = $form->getData();
         $file = $data['file'];
+        $image = new Image();
+        $image->setExtension($file->guessExtension());
         do {
-            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
-        } while (file_exists(FILEDIR . '/' . $fileName));
+            $image->setId(md5(uniqid()));
+        } while (file_exists($image->getPath()));
 
-        $file->move(FILEDIR, $fileName);
-        ExifTools::generateImgMeta($fileName);
-        return $app->redirect($app->path('image_added'));
+        $file->move(FILEDIR, $image->getName());
+        // ExifTools::generateImgMeta($fileName);
+        return $app->redirect($app->path('update', [
+            'id' => $image->getId(),
+            'extension' => $image->getExtension()
+        ]));
     }
 
     return $app->render('add.html.twig', [
         'form' => $form->createView(),
     ]);
-}, 'GET|POST');
+}, 'GET|POST')
+->bind('add');
+
+$app->match(
+    '/{id}_{extension}',
+    function($id, $extension, Request $request) use ($app) {
+        $image = new Image();
+        $image->setId($id)->setExtension($extension);
+        // $meta = $image->getLatestMeta();
+
+        // $formBuilder = $app->form($meta);
+        // foreach ($meta as $key => $value) {
+        //     $formBuilder->add($key, TextType::class);
+        // }
+        // $formBuilder->add('submit', SubmitType::class, ['label' => 'Mettre à jour']);
+        // $form = $formBuilder->getForm();
+
+        // $form->handleRequest($request);
+        // if ($request->isMethod('POST') && $form->isValid()) {
+        //     var_dump($meta);
+        //     return 'ok';
+        // }
+
+        return $app->render('update.html.twig', [
+            'image' => $image
+        ]);
+    }, 'GET|POST'
+)
+->bind('update');

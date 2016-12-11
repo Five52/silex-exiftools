@@ -9,16 +9,15 @@ class Image
     protected $extension;
     protected $latestMeta;
 
-    public function __construct($id, $extension)
-    {
-        $this->id = $id;
-        $this->extension = $extension;
-        $this->latestMeta = null;
-    }
-
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getExtension()
@@ -26,9 +25,20 @@ class Image
         return $this->extension;
     }
 
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+        return $this;
+    }
+
+    public function getName()
+    {
+        return $this->id . '.' . $this->extension;
+    }
+
     public function getPath()
     {
-        return self::IMG_PATH . $this->id . '.' . $this->extension;
+        return self::IMG_PATH . $this->getName();
     }
 
     public function getLatestMeta()
