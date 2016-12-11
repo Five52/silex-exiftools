@@ -34,7 +34,7 @@ class ExifTools
     * @return <array>image meta
     * @throws specific exception if doesn't find img or json file.
     */
-    public static function getImgMeta(string $fileName) :array
+    public static function getImgMeta(string $fileName): array
     {
         if (file_exists(self::IMG_PATH . $fileName)) {
             //get the json image name:
@@ -105,6 +105,79 @@ class ExifTools
             } else {
                 throw new \Exception("Error, json file doesn't exist");
             }
+        } else {
+            throw new \Exception("Error, image file doesn't exist");
+        }
+    }
+
+    /**
+    * Static method to restaure original metadata of the image.
+    * @param <string>file name with ext of the img
+    * @throws specific exception if doesn't find img or json file.
+    */
+    public static function resetOriginalMeta(string $fileName)
+    {
+        if (file_exists(self::IMG_PATH . $fileName)) {
+            //get the json image name:
+            $jsonOriginalName = preg_replace("/\.\w*/", ".json.original", $fileName);
+            $jsonActualName = preg_replace("/\.\w*/", ".json", $fileName);
+
+            if (file_exists(self::IMG_PATH . $jsonOriginalName)) {
+                //update metada of the image:
+                $command = "exiftool -j=" . self::IMG_PATH . $jsonOriginalName . " -G -m -overwrite_original" . self::IMG_PATH . $fileName;
+                copy(self::IMG_PATH . $jsonOriginalName, self::IMG_PATH . $jsonActualName);
+                exec($command);
+            } else {
+                throw new \Exception("Error, json file doesn't exist");
+            }
+        } else {
+            throw new \Exception("Error, image file doesn't exist");
+        }
+    }
+
+    /**
+    * Static method to restaure last metadata of the image.
+    * @param <string>file name with ext of the img
+    * @throws specific exception if doesn't find img or json file.
+    */
+    public static function resetLastMeta(string $fileName)
+    {
+        if (file_exists(self::IMG_PATH . $fileName)) {
+            //get the json image name:
+            $jsonOldName = preg_replace("/\.\w*/", ".json.old", $fileName);
+            $jsonActualName = preg_replace("/\.\w*/", ".json", $fileName);
+
+            if (file_exists(self::IMG_PATH . $jsonOldName)) {
+                //update metada of the image:
+                $command = "exiftool -j=" . self::IMG_PATH . $jsonOldName . " -G -m -overwrite_original" . self::IMG_PATH . $fileName;
+                copy(self::IMG_PATH . $jsonOldName, self::IMG_PATH . $jsonActualName);
+                exec($command);
+            } else {
+                throw new \Exception("Error, json file doesn't exist");
+            }
+        } else {
+            throw new \Exception("Error, image file doesn't exist");
+        }
+    }
+
+    /**
+    * Static method to generate xmp file and return download link.
+    * @param <string>file name with ext of the img
+    * @return <string>link of file xmp sidecar metadata link
+    * @throws specific exception if doesn't find img or xmp file.
+    */
+    public static function generateXmpLink(string $fileName): string
+    {
+        if (file_exists(self::IMG_PATH . $fileName)) {
+            //get the xmp image name:
+            $xmpName = preg_replace("/\.\w*/", ".xmp", $fileName);
+
+            //we generate/regenerate the file:
+            $command = "exiftool -TagsFromFile " . self::IMG_PATH . $fileName . " " . self::IMG_PATH . $xmpName;
+            exec($command);
+
+            //returning the xmp file link:
+            return "/web/files/" . $xmpName;
         } else {
             throw new \Exception("Error, image file doesn't exist");
         }
