@@ -1,6 +1,8 @@
 <?php
 namespace ExifTools;
 
+const META_PATH = "../web/files/metadata/";
+
 /**
 * A class to invoke methods on exifTool software
 */
@@ -15,10 +17,10 @@ class ExifTools
     {   
         if (file_exists($img->getPath())) {
             //we lauch the command and create the file
-            $command = "exiftool " . $img->getPath() . " -G -json > " . Image::IMG_PATH . $img->getId() .  ".json ";
+            $command = "exiftool " . $img->getPath() . " -G -json > " . self::META_PATH . $img->getId() .  ".json ";
             exec($command);
             //we keep a copy of the original metadata
-            copy(Image::IMG_PATH . $img->getId() . ".json", Image::IMG_PATH . $img->getId() . ".json.original");
+            copy(self::META_PATH . $img->getId() . ".json", self::META_PATH . $img->getId() . ".json.original");
         } else {
             throw new \Exception("Error, image file doesn't exist");
         }
@@ -34,23 +36,23 @@ class ExifTools
     {
         if (file_exists($img->getPath())) {
             //if the json file doesn't exist we generate it
-            $jsonPath = Image::IMG_PATH . $img->getId() . ".json";
+            $jsonPath = self::META_PATH . $img->getId() . ".json";
             if (!file_exists($jsonPath)) {
                 self::generateImgMeta($img);
             }
 
             $content = file_get_contents($jsonPath);
-            $json = json_decode($content, true)[0];
-            //modelize array:
-            $metaArray = [];
-            foreach ($json as $key => $value) {
-                $str = explode(':', $key);
-                if (array_key_exists(1, $str)) {
-                    $metaArray[$str[0]][$str[1]] = $value;
-                } else {
-                    $metaArray[$key] = $value;
-                }
-            }
+            $metaArray = json_decode($content, true)[0];
+            // //modelize array:
+            // $metaArray = [];
+            // foreach ($json as $key => $value) {
+            //     $str = explode(':', $key);
+            //     if (array_key_exists(1, $str)) {
+            //         $metaArray[$str[0]][$str[1]] = $value;
+            //     } else {
+            //         $metaArray[$key] = $value;
+            //     }
+            // }
         } else {
             throw new \Exception("Error, image file doesn't exist");
         }
@@ -66,26 +68,26 @@ class ExifTools
     {
         if (file_exists($img->getPath())) {
             //get the json image name:
-            $jsonPath = Image::IMG_PATH . $img->getId() . ".json";
+            $jsonPath = self::META_PATH . $img->getId() . ".json";
 
             if (file_exists($jsonPath)) {
 
                 //pushing the change to the image (we drop the old one and push the new one instead)
 
-                    //normalize array for json parsing:
-                $metaArray = [];
-                foreach ($meta as $category => $key) {
-                    if (is_array($meta[$category])) {
-                        foreach ($key as $tag => $value) {
-                            $metaArray[$category . ":" . $tag] = $value;
-                        }
-                    } else {
-                        $metaArray[$category] = $key;
-                    }
-                }
+                //     //normalize array for json parsing:
+                // $metaArray = [];
+                // foreach ($meta as $category => $key) {
+                //     if (is_array($meta[$category])) {
+                //         foreach ($key as $tag => $value) {
+                //             $metaArray[$category . ":" . $tag] = $value;
+                //         }
+                //     } else {
+                //         $metaArray[$category] = $key;
+                //     }
+                // }
 
                     //convert array in json and update the file
-                $jsonArray = json_encode($metaArray);
+                $jsonArray = json_encode($meta);
                     //we keep a copy of the metadata before changing it
                 copy($jsonPath, $jsonPath . ".old");
                 $file = fopen($jsonPath, 'w');
@@ -113,8 +115,8 @@ class ExifTools
     {
         if (file_exists($img->getPath())) {
             //get the json image name:
-            $jsonOriginalPath = Image::IMG_PATH . $img->getId() . ".json.original";
-            $jsonActualPath = Image::IMG_PATH . $img->getId() . ".json";
+            $jsonOriginalPath = self::META_PATH . $img->getId() . ".json.original";
+            $jsonActualPath = self::META_PATH . $img->getId() . ".json";
 
             if (file_exists($jsonOriginalPath)) {
                 //update metada of the image:
@@ -138,8 +140,8 @@ class ExifTools
     {
         if (file_exists($img->getPath())) {
             //get the json image name:
-            $jsonOldPath = Image::IMG_PATH . $img->getId() . ".json.old";
-            $jsonActualPath = Image::IMG_PATH . $img->getId() . ".json";
+            $jsonOldPath = self::META_PATH . $img->getId() . ".json.old";
+            $jsonActualPath = self::META_PATH . $img->getId() . ".json";
 
             if (file_exists($jsonOldPath)) {
                 //update metada of the image:
@@ -164,7 +166,7 @@ class ExifTools
     {
         if (file_exists($img->getPath())) {
             //get the xmp image name:
-            $xmpPath = Image::IMG_PATH . $img->getId() . ".xmp");
+            $xmpPath = self::META_PATH . $img->getId() . ".xmp");
 
             //we generate/regenerate the file:
             $command = "exiftool -TagsFromFile " . $img->getPath() . " " . $xmpPath;
