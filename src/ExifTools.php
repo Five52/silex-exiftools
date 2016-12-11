@@ -5,24 +5,20 @@ namespace ExifTools;
 * A class to invoke methods on exifTool software
 */
 class ExifTools
-{
-    const IMG_PATH = "../web/files/";
-    
+{    
     /**
     * Static method to extract metadata with exiftool and create a json file of it.
-    * @param <string>file name with ext of the img
+    * @param <Image>instance of the target image
     * @throws specific exception if doesn't find file.
     */
-    public static function generateImgMeta(string $fileName)
+    public static function generateImgMeta(Image $img)
     {   
-        if (file_exists(self::IMG_PATH . $fileName)) {
-            //get file name without ext
-            $imgName = preg_replace("/\.\w*/", "", $fileName);
+        if (file_exists($img->getPath())) {
             //we lauch the command and create the file
-            $command = "exiftool " . self::IMG_PATH . $fileName . " -G -json > " . self::IMG_PATH . $imgName .  ".json ";
+            $command = "exiftool " . $img->getPath() . " -G -json > " . Image::IMG_PATH . $img->getId() .  ".json ";
             exec($command);
             //we keep a copy of the original metadata
-            copy(self::IMG_PATH . $imgName . ".json", self::IMG_PATH . $imgName . ".json.original");
+            copy(Image::IMG_PATH . $img->getId() . ".json", Image::IMG_PATH . $img->getId() . ".json.original");
         } else {
             throw new \Exception("Error, image file doesn't exist");
         }
@@ -30,22 +26,20 @@ class ExifTools
 
     /**
     * Static method to return metadata from it json file.
-    * @param <string>file name with ext of the img
+    * @param <Image>instance of the target image
     * @return <array>image meta
     * @throws specific exception if doesn't find img file
     */
-    public static function getImgMeta(string $fileName): array
+    public static function getImgMeta(Image $img): array
     {
-        if (file_exists(self::IMG_PATH . $fileName)) {
-            //get the json image name:
-            $jsonName = preg_replace("/\.\w*/", ".json", $fileName);
-
+        if (file_exists($img->getPath())) {
             //if the json file doesn't exist we generate it
-            if (!file_exists(self::IMG_PATH . $jsonName)) {
-                self::generateImgMeta($fileName);
+            $jsonPath = Image::IMG_PATH . $img->getId() . ".json";
+            if (!file_exists($jsonPath)) {
+                self::generateImgMeta($img);
             }
 
-            $content = file_get_contents(self::IMG_PATH . $jsonName);
+            $content = file_get_contents($jsonPath);
             $json = json_decode($content, true)[0];
             //modelize array:
             $metaArray = [];
@@ -65,16 +59,16 @@ class ExifTools
 
     /**
     * Static method to update jsonFile and image metadata.
-    * @param <array>metada array to push in the img, <string>file name with ext of the img
+    * @param <array>metada array to push in the img, <Image>instance of the target image
     * @throws specific exception if doesn't find img or json file.
     */
-    public static function setImgMeta(array $meta, string $fileName)
+    public static function setImgMeta(array $meta, Image $img)
     {
-        if (file_exists(self::IMG_PATH . $fileName)) {
+        if (file_exists($img->getPath())) {
             //get the json image name:
-            $jsonName = preg_replace("/\.\w*/", ".json", $fileName);
+            $jsonPath = Image::IMG_PATH . $img->getId() . ".json";
 
-            if (file_exists(self::IMG_PATH . $jsonName)) {
+            if (file_exists($jsonPath)) {
 
                 //pushing the change to the image (we drop the old one and push the new one instead)
 
@@ -93,13 +87,13 @@ class ExifTools
                     //convert array in json and update the file
                 $jsonArray = json_encode($metaArray);
                     //we keep a copy of the metadata before changing it
-                copy(self::IMG_PATH . $jsonName, self::IMG_PATH . $jsonName . ".old");
-                $file = fopen(self::IMG_PATH . $jsonName, 'w');
+                copy($jsonPath, $jsonPath . ".old");
+                $file = fopen($jsonPath, 'w');
                 fwrite($file, $jsonArray);
                 fclose($file);
 
                 //update metada of the image:
-                $command = "exiftool -j=" . self::IMG_PATH . $jsonName . " -G -m -overwrite_original" . self::IMG_PATH . $fileName;
+                $command = "exiftool -j=" . $jsonPath . " -G -m -overwrite_original" . $img->getPath();
                 exec($command);
 
             } else {
@@ -112,20 +106,20 @@ class ExifTools
 
     /**
     * Static method to restaure original metadata of the image.
-    * @param <string>file name with ext of the img
+    * @param <Image>instance of the target image
     * @throws specific exception if doesn't find img or json file.
     */
-    public static function resetOriginalMeta(string $fileName)
+    public static function resetOriginalMeta(Image $img)
     {
-        if (file_exists(self::IMG_PATH . $fileName)) {
+        if (file_exists($img->getPath())) {
             //get the json image name:
-            $jsonOriginalName = preg_replace("/\.\w*/", ".json.original", $fileName);
-            $jsonActualName = preg_replace("/\.\w*/", ".json", $fileName);
+            $jsonOriginalPath = Image::IMG_PATH . $img->getId() . ".json.original";
+            $jsonActualPath = Image::IMG_PATH . $img->getId() . ".json";
 
-            if (file_exists(self::IMG_PATH . $jsonOriginalName)) {
+            if (file_exists($jsonOriginalPath)) {
                 //update metada of the image:
-                $command = "exiftool -j=" . self::IMG_PATH . $jsonOriginalName . " -G -m -overwrite_original" . self::IMG_PATH . $fileName;
-                copy(self::IMG_PATH . $jsonOriginalName, self::IMG_PATH . $jsonActualName);
+                $command = "exiftool -j=" . $jsonOriginalPath . " -G -m -overwrite_original" . $img->getPath();
+                copy($jsonOriginalPath, $jsonActualPath);
                 exec($command);
             } else {
                 throw new \Exception("Error, json file doesn't exist");
@@ -137,20 +131,20 @@ class ExifTools
 
     /**
     * Static method to restaure last metadata of the image.
-    * @param <string>file name with ext of the img
+    * @param <Image>instance of the target image
     * @throws specific exception if doesn't find img or json file.
     */
-    public static function resetLastMeta(string $fileName)
+    public static function resetLastMeta(Image $img)
     {
-        if (file_exists(self::IMG_PATH . $fileName)) {
+        if (file_exists($img->getPath())) {
             //get the json image name:
-            $jsonOldName = preg_replace("/\.\w*/", ".json.old", $fileName);
-            $jsonActualName = preg_replace("/\.\w*/", ".json", $fileName);
+            $jsonOldPath = Image::IMG_PATH . $img->getId() . ".json.old";
+            $jsonActualPath = Image::IMG_PATH . $img->getId() . ".json";
 
-            if (file_exists(self::IMG_PATH . $jsonOldName)) {
+            if (file_exists($jsonOldPath)) {
                 //update metada of the image:
-                $command = "exiftool -j=" . self::IMG_PATH . $jsonOldName . " -G -m -overwrite_original" . self::IMG_PATH . $fileName;
-                copy(self::IMG_PATH . $jsonOldName, self::IMG_PATH . $jsonActualName);
+                $command = "exiftool -j=" . $jsonOldPath . " -G -m -overwrite_original" . $img->getPath();
+                copy($jsonOldPath, $jsonActualPath);
                 exec($command);
             } else {
                 throw new \Exception("Error, json file doesn't exist");
@@ -162,22 +156,22 @@ class ExifTools
 
     /**
     * Static method to generate xmp file and return download link.
-    * @param <string>file name with ext of the img
+    * @param <Image>instance of the target image
     * @return <string>link of file xmp sidecar metadata link
     * @throws specific exception if doesn't find img or xmp file.
     */
-    public static function generateXmpLink(string $fileName): string
+    public static function generateXmpLink(Image $img): string
     {
-        if (file_exists(self::IMG_PATH . $fileName)) {
+        if (file_exists($img->getPath())) {
             //get the xmp image name:
-            $xmpName = preg_replace("/\.\w*/", ".xmp", $fileName);
+            $xmpPath = Image::IMG_PATH . $img->getId() . ".xmp");
 
             //we generate/regenerate the file:
-            $command = "exiftool -TagsFromFile " . self::IMG_PATH . $fileName . " " . self::IMG_PATH . $xmpName;
+            $command = "exiftool -TagsFromFile " . $img->getPath() . " " . $xmpPath;
             exec($command);
 
             //returning the xmp file link:
-            return "/web/files/" . $xmpName;
+            return "/web/files/" . $img->getId() . ".xmp";
         } else {
             throw new \Exception("Error, image file doesn't exist");
         }
