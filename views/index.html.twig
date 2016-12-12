@@ -7,8 +7,15 @@
 {% block main %}
     <div id="home">
         {% for image in images  %}
-            <img src="{{ image }}" />
+            <figure>
+                <h2>{{ image.basicMeta.title }}</h2>
+                <a href="{{path('update',{'id' : image.id, 'extension' : image.extension})}}" alt="">
+                    <img src="{{ image.path }}" alt="see details" />
+                </a>
+                <figcaption>
+                    author: {{ image.basicMeta.author }}
+                </figcaption>
+            </figure>
         {% endfor  %}
-    </home>
+    </div>
 {% endblock %}
-
