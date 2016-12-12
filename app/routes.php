@@ -11,8 +11,6 @@ use ExifTools\ExifTools;
 use ExifTools\Image;
 use ExifTools\ImageDAO;
 
-define('FILEDIR', __DIR__.'/../web/files');
-
 $app->match('/', function(Request $request) use ($app) {
 
     return $app->render('index.html.twig', array(
@@ -49,7 +47,7 @@ $app->match('/add', function(Request $request) use ($app) {
             $image->setId(md5(uniqid()));
         } while (file_exists($image->getPath()));
 
-        $file->move(FILEDIR, $image->getName());
+        $file->move(Image::IMG_PATH, $image->getName());
         // ExifTools::generateImgMeta($fileName);
         return $app->redirect($app->path('update', [
             'id' => $image->getId(),
@@ -66,9 +64,13 @@ $app->match('/add', function(Request $request) use ($app) {
 $app->match(
     '/{id}_{extension}',
     function($id, $extension, Request $request) use ($app) {
-        $image = new Image();
-        $image->setId($id)->setExtension($extension);
+        $image = ImageDAO::get($id, $extension);
         $meta = $image->getLatestMeta();
+        foreach ($meta as $key => $value) {
+            if (is_array($value)) {
+                $meta[$key] = implode(', ', $value);
+            }
+        }
 
         $formBuilder = $app->form($meta);
         foreach ($meta as $key => $value) {
