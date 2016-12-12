@@ -1,14 +1,9 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-<<<<<<< Updated upstream
     Metadonnées - {{ parent() }}
 {% endblock %}
 
-=======
-    Détail de l'image - {{ parent() }}
-{% endblock %}
->>>>>>> Stashed changes
 {% block meta %}
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
@@ -28,11 +23,7 @@
 {% endblock %}
 
 {% block main %}
-<<<<<<< Updated upstream
     <h1>Métadonnées de l'image</h1>
-    
-=======
->>>>>>> Stashed changes
     <section id="displayImg">
         <h2 class="imgTitle">{{ image.basicMeta.title }}</h2>
         <figure>
@@ -60,7 +51,6 @@
         </div>
     </section>
     <section id="updateForm">
-<<<<<<< Updated upstream
         {{ form(form) }}
     </section>
 {% endblock %}
@@ -68,8 +58,4 @@
 {% block javascript %}
       <script src="{{ root }}js/meta-form.js"></script>
 {% endblock %}
-=======
-        <!-- import template twig: update form -->
-    </section>
-{% endblock %}
->>>>>>> Stashed changes
+
