@@ -91,3 +91,9 @@ $app->match(
     }, 'GET|POST'
 )
 ->bind('update');
+
+$app->match('/about', function(Request $request) use ($app) {
+
+    return $app->render('about.html.twig');
+})
+->bind('about');
