@@ -17,4 +17,11 @@ class ImageDAO
 
         return $images;
     }
+
+    public static function get($id, $extension)
+    {
+        $image = new Image();
+        $image->setId($id)->setExtension($extension);
+        return $image;
+    }
 }

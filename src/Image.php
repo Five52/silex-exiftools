@@ -3,7 +3,7 @@ namespace ExifTools;
 
 class Image
 {
-    const IMG_PATH = "../web/files/";
+    const IMG_PATH = "../web/files/img";
 
     protected $id;
     protected $extension;
@@ -38,7 +38,7 @@ class Image
 
     public function getPath()
     {
-        return self::IMG_PATH . $this->getName();
+        return self::IMG_PATH . '/' . $this->getName();
     }
 
     public function getLatestMeta()

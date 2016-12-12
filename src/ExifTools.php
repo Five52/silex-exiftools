@@ -1,20 +1,20 @@
 <?php
 namespace ExifTools;
 
-const META_PATH = "../web/files/metadata/";
-
 /**
 * A class to invoke methods on exifTool software
 */
 class ExifTools
-{    
+{
+
+    const META_PATH = "../web/files/metadata/";
     /**
     * Static method to extract metadata with exiftool and create a json file of it.
     * @param <Image>instance of the target image
     * @throws specific exception if doesn't find file.
     */
     public static function generateImgMeta(Image $img)
-    {   
+    {
         if (file_exists($img->getPath())) {
             //we lauch the command and create the file
             $command = "exiftool " . $img->getPath() . " -G -json > " . self::META_PATH . $img->getId() .  ".json ";
@@ -166,7 +166,7 @@ class ExifTools
     {
         if (file_exists($img->getPath())) {
             //get the xmp image name:
-            $xmpPath = self::META_PATH . $img->getId() . ".xmp");
+            $xmpPath = self::META_PATH . $img->getId() . ".xmp";
 
             //we generate/regenerate the file:
             $command = "exiftool -TagsFromFile " . $img->getPath() . " " . $xmpPath;
