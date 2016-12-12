@@ -83,7 +83,8 @@ $app->match(
         }
 
         return $app->render('update.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'image' => $image
         ]);
     }, 'GET|POST'
 )

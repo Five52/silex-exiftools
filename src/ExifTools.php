@@ -95,7 +95,7 @@ class ExifTools
                 fclose($file);
 
                 //update metada of the image:
-                $command = "exiftool -j=" . $jsonPath . " -G -m -overwrite_original" . $img->getPath();
+                $command = "exiftool -j=" . $jsonPath . " -G -m -overwrite_original " . $img->getPath();
                 exec($command);
 
             } else {
@@ -120,7 +120,7 @@ class ExifTools
 
             if (file_exists($jsonOriginalPath)) {
                 //update metada of the image:
-                $command = "exiftool -j=" . $jsonOriginalPath . " -G -m -overwrite_original" . $img->getPath();
+                $command = "exiftool -j=" . $jsonOriginalPath . " -G -m -overwrite_original " . $img->getPath();
                 copy($jsonOriginalPath, $jsonActualPath);
                 exec($command);
             } else {
@@ -145,7 +145,7 @@ class ExifTools
 
             if (file_exists($jsonOldPath)) {
                 //update metada of the image:
-                $command = "exiftool -j=" . $jsonOldPath . " -G -m -overwrite_original" . $img->getPath();
+                $command = "exiftool -j=" . $jsonOldPath . " -G -m -overwrite_original " . $img->getPath();
                 copy($jsonOldPath, $jsonActualPath);
                 exec($command);
             } else {
@@ -169,11 +169,11 @@ class ExifTools
             $xmpPath = self::META_PATH . $img->getId() . ".xmp";
 
             //we generate/regenerate the file:
-            $command = "exiftool -TagsFromFile " . $img->getPath() . " " . $xmpPath;
+            $command = "exiftool -TagsFromFile " . $img->getPath() . " -overwrite_original " . $xmpPath;
             exec($command);
 
             //returning the xmp file link:
-            return "/web/files/" . $img->getId() . ".xmp";
+            return $xmpPath;
         } else {
             throw new \Exception("Error, image file doesn't exist");
         }
