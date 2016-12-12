@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Metadonnées - {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <h1>Métadonnées de l'image</h1>
+    {{ form(form) }}
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ root }}js/meta-form.js"></script>
+{% endblock %}
