@@ -42,7 +42,7 @@ class ExifTools
             }
 
             $content = file_get_contents($jsonPath);
-            $metaArray = json_decode($content, true);
+            $metaArray = json_decode($content, true)[0];
             // //modelize array:
             // $metaArray = [];
             // foreach ($json as $key => $value) {
