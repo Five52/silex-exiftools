@@ -49,4 +49,9 @@ class Image
         return $this->latestMeta;
     }
 
+    public function getXmpPath()
+    {
+        return ExifTools::generateXmpLink($this);
+    }
+
 }
