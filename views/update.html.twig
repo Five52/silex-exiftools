@@ -1,9 +1,8 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-    Metadonnées - {{ parent() }}
+    Détail de l'image - {{ parent() }}
 {% endblock %}
-
 {% block meta %}
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
@@ -23,7 +22,6 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Métadonnées de l'image</h1>
     <section id="displayImg">
         <h2 class="imgTitle">{{ image.basicMeta.title }}</h2>
         <figure>
@@ -51,11 +49,6 @@
         </div>
     </section>
     <section id="updateForm">
-        {{ form(form) }}
+        <!-- import template twig: update form -->
     </section>
 {% endblock %}
-
-{% block javascript %}
-      <script src="{{ root }}js/meta-form.js"></script>
-{% endblock %}
-
