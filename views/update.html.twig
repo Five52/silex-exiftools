@@ -1,14 +1,75 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
+<<<<<<< Updated upstream
     Metadonnées - {{ parent() }}
 {% endblock %}
 
+=======
+    Détail de l'image - {{ parent() }}
+{% endblock %}
+>>>>>>> Stashed changes
+{% block meta %}
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@plabadille">   
+    <meta name="twitter:title" content="{{ image.basicMeta.title }}">
+    <meta name="twitter:description" content="{{ image.basicMeta.description }}">
+    <meta name="twitter:image" content="{{ image.path }}">
+    <meta name="twitter:image:alt" content="{{ image.basicMeta.description }}">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{ image.basicMeta.title }}" />
+    <meta property="og:image" content="{{ image.path }}" />
+    <meta property="og:image:type" content="{{ image.latestMeta['File:MIMEType'] }}" />
+    <meta property="og:image:width" content="{{ image.latestMeta['File:ImageWidth'] }}" />
+    <meta property="og:image:height" content="{{ image.latestMeta['File:ImageHeight'] }}" />
+    <meta property="og:description" content="{{ image.basicMeta.description }}" />
+{% endblock %}
+
 {% block main %}
+<<<<<<< Updated upstream
     <h1>Métadonnées de l'image</h1>
-    {{ form(form) }}
+    
+=======
+>>>>>>> Stashed changes
+    <section id="displayImg">
+        <h2 class="imgTitle">{{ image.basicMeta.title }}</h2>
+        <figure>
+            <img src="{{ image.path }}" alt="{{ image.basicMeta.description }}" />
+            <figcaption>                    
+                {% if image.latestMeta['XMP:CreatorWorkURL'] is defined %}
+                    Author: <a href="{{ image.latestMeta['XMP:CreatorWorkURL'] }}" target="_blank" alt="creator personal website">{{ image.basicMeta.author }}</a> - 
+                {% else %}
+                    Author: {{ image.basicMeta.author }} - 
+                {% endif %}
+
+                {% if image.latestMeta['XMP:UsageTerms'] is defined %}
+                    Licence: {{ image.latestMeta['XMP:UsageTerms'] }}
+                {% elseif image.latestMeta['IPTC:CopyrightNotice'] is defined %}
+                    Licence: {{ image.latestMeta['IPTC:CopyrightNotice'] }}
+                {% else %}
+                    Licence: unknow
+                {% endif %}
+            </figcaption>
+        </figure>
+        <div id="utilsLinks">
+            <h3>Utils links:</h3>
+            <a href="{{ image.path }}" download>Image download</a>
+            <a href="{{ image.xmpPath }}" download>Metadata sidecar XMP download</a>
+        </div>
+    </section>
+    <section id="updateForm">
+<<<<<<< Updated upstream
+        {{ form(form) }}
+    </section>
 {% endblock %}
 
 {% block javascript %}
-    <script src="{{ root }}js/meta-form.js"></script>
+      <script src="{{ root }}js/meta-form.js"></script>
 {% endblock %}
+=======
+        <!-- import template twig: update form -->
+    </section>
+{% endblock %}
+>>>>>>> Stashed changes
