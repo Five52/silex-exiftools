@@ -5,10 +5,11 @@
 {% endblock %}
 
 {% block main %}
+    <h2>Accueil</h2>
     <div id="home">
         {% for image in images  %}
             <figure>
-                <h2>{{ image.basicMeta.title }}</h2>
+                <h3>{{ image.basicMeta.title }}</h3>
                 <a href="{{path('update',{'id' : image.id, 'extension' : image.extension})}}" alt="">
                     <img src="{{ image.path }}" alt="see details" />
                 </a>

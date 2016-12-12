@@ -11,10 +11,14 @@
     {% block meta %}
     {% endblock %}
     <link rel="stylesheet" href="{{ root }}css/style.css">
+    {# <link rel="stylesheet" href="{{ root }}css/normalize.min.css">
+    <link rel="stylesheet" href="{{ root }}css/milligram.min.css"> #}
 </head>
 <body>
     {% include 'partials/header.html.twig' %}
-    {% block main %}{% endblock %}
+    <main>
+        {% block main %}{% endblock %}
+    </main>
     {% block javascript %}{% endblock %}
 </body>
 </html>

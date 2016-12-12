@@ -22,9 +22,9 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Métadonnée de l'image</h1>
+    <h2>Métadonnées de l'image</h2>
     <section id="displayImg">
-        <h2 class="imgTitle">{{ image.basicMeta.title }}</h2>
+        <h3 class="imgTitle">{{ image.basicMeta.title }}</h3>
         <figure>
             <img src="{{ image.path }}" alt="{{ image.basicMeta.description }}" />
             <figcaption>                    
@@ -39,13 +39,14 @@
                 {% elseif image.latestMeta['IPTC:CopyrightNotice'] is defined %}
                     Licence: {{ image.latestMeta['IPTC:CopyrightNotice'] }}
                 {% else %}
-                    Licence: unknow
+                    Licence: unknown
                 {% endif %}
             </figcaption>
         </figure>
         <div id="utilsLinks">
             <h3>Utils links:</h3>
             <a href="{{ image.path }}" download>Image download</a>
+             | 
             <a href="{{ image.xmpPath }}" download>Metadata sidecar XMP download</a>
         </div>
     </section>
