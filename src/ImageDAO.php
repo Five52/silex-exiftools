@@ -7,14 +7,18 @@ class ImageDAO
     {
         $files = glob(Image::IMG_PATH . '/*');
         $images = [];
-
+        
         foreach ($files as $file) {
-            $infos = explode('.', $file);
-            $image = new Image();
-            $image->setId($infos[0])->setExtension($infos[1]);
-            $images[] = $image;
+            $infos = preg_replace("/^.*\//", "", $file);
+            $infos = explode('.', $infos);
+            
+            if(array_key_exists(1, $infos)) {
+                $image = new Image();
+                $image->setId($infos[0])->setExtension($infos[1]);
+                $images[] = $image;    
+            }            
+            
         }
-
         return $images;
     }
 
