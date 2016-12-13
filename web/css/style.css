@@ -134,6 +134,56 @@ h2 {
     text-align: center;
 }
 
+#displayImg img {
+    max-width: 90%;
+}
+
+fieldset {
+    padding: 20px;
+    margin: 20px;
+}
+
+#form div {
+    margin: 10px;
+}
+
+#form label {
+    width: 200px;
+    float: left;
+    display: block;
+}
+
+form input[type=text] {
+    width: 250px;
+    padding: 2px 5px;
+}
+
+fieldset > legend {
+    padding: 0 20px;
+}
+
+#form > div {
+    margin: 20px;
+    margin-left: 5%;
+}
+
+button[type=submit] {
+    border: 1px solid #aa0022;
+    font-size: 18px;
+    color: #FFF;
+    background-color: #aa0022;
+    cursor: pointer;
+    margin: auto;
+    width: 150px;
+    padding: 20px;
+    display: block;
+    transition: background-color .5s, color .5s;
+}
+
+button[type=submit]:hover {
+    color: #aa0022;
+    background-color: #FFF;
+}
 /* RESPONSIVE */
 
 @media screen and (max-width: 1100px) {
