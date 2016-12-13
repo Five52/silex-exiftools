@@ -81,14 +81,10 @@ main a {
     text-decoration: none;
 }
 
-main a:hover {
-    text-decoration: underline;
-}
-
 h2 {
-    text-align: center;
     font-size: 28px;
     margin-bottom: 35px;
+    border-bottom: 1px solid #aa0022;
 }
 
 #home {
@@ -106,6 +102,7 @@ h2 {
     text-align: center;
     padding: 10px;
     box-shadow: 0px 0 25px 0px #ccc;
+    background-color: #FFF;
 }
 
 #home > figure > h3 {
@@ -141,6 +138,13 @@ h2 {
 fieldset {
     padding: 20px;
     margin: 20px;
+    border: 1px solid #aa0022;
+}
+
+fieldset > legend {
+    padding: 5px 20px;
+    background-color: #aa0022;
+    color: #FFF;
 }
 
 #form div {
@@ -151,6 +155,8 @@ fieldset {
     width: 200px;
     float: left;
     display: block;
+    text-align: right;
+    margin-right: 10px;
 }
 
 form input[type=text] {
@@ -158,13 +164,28 @@ form input[type=text] {
     padding: 2px 5px;
 }
 
-fieldset > legend {
-    padding: 0 20px;
-}
-
 #form > div {
     margin: 20px;
     margin-left: 5%;
+}
+
+#utilLinks {
+    height: 75px;
+}
+
+#utilLinks h3 {
+    margin-bottom: 15px;
+}
+
+#utilLinks a {
+    border: 1px solid #aa0022;
+    color: #FFF;
+    background-color: #aa0022;
+    cursor: pointer;
+    margin: 10px 5px;
+    width: 50%;
+    padding: 10px;
+    transition: background-color .5s, color .5s;
 }
 
 button[type=submit] {
@@ -180,7 +201,7 @@ button[type=submit] {
     transition: background-color .5s, color .5s;
 }
 
-button[type=submit]:hover {
+button[type=submit]:hover, #utilLinks a:hover {
     color: #aa0022;
     background-color: #FFF;
 }
