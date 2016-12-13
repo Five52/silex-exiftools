@@ -101,6 +101,7 @@ h2 {
     flex-direction: column;
     text-align: center;
     padding: 10px;
+    margin-top: 20px;
     box-shadow: 0px 0 25px 0px #ccc;
     background-color: #FFF;
 }
@@ -139,6 +140,8 @@ fieldset {
     padding: 20px;
     margin: 20px;
     border: 1px solid #aa0022;
+    box-shadow: 0px 0 25px 0px #ccc;
+    background-color: #FFF;
 }
 
 fieldset > legend {
