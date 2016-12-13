@@ -86,8 +86,6 @@ $app->match(
             return 'ok';
         }
 
-        var_dump($image);
-
         return $app->render('update.html.twig', [
             'form' => $form->createView(),
             'image' => $image
