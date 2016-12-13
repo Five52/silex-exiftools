@@ -6,7 +6,7 @@
 {% block meta %}
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@plabadille">   
+    <meta name="twitter:site" content="@plabadille">
     <meta name="twitter:title" content="{{ image.basicMeta.title }}">
     <meta name="twitter:description" content="{{ image.basicMeta.description }}">
     <meta name="twitter:image" content="{{ image.path }}">
@@ -37,11 +37,11 @@
         <h3 class="imgTitle">{{ image.basicMeta.title }}</h3>
         <figure>
             <img src="{{ image.path }}" alt="{{ image.basicMeta.description }}" />
-            <figcaption>                    
+            <figcaption>
                 {% if image.latestMeta['XMP:CreatorWorkURL'] is defined %}
-                    Author: <a href="{{ image.latestMeta['XMP:CreatorWorkURL'] }}" target="_blank" alt="creator personal website">{{ image.basicMeta.author }}</a> - 
+                    Author: <a href="{{ image.latestMeta['XMP:CreatorWorkURL'] }}" target="_blank" alt="creator personal website">{{ image.basicMeta.author }}</a> -
                 {% else %}
-                    Author: {{ image.basicMeta.author }} - 
+                    Author: {{ image.basicMeta.author }} -
                 {% endif %}
 
                 {% if image.latestMeta['XMP:UsageTerms'] is defined %}
@@ -56,7 +56,7 @@
         <div id="utilsLinks">
             <h3>Utils links:</h3>
             <a href="{{ image.path }}" download>Image download</a>
-             | 
+             |
             <a href="{{ image.xmpPath }}" download>Metadata sidecar XMP download</a>
         </div>
     </section>

@@ -8,6 +8,7 @@ labels.forEach((label) => {
         const name = splitted[0];
         if (!fieldsets.hasOwnProperty(name)) {
             let fieldset = document.createElement('fieldset');
+            fieldset.id = name;
             fieldset.innerHTML = '<legend>' + name;
             fieldsets[name] = fieldset;
         }
@@ -20,9 +21,6 @@ let form = document.querySelector('form');
 let submit = document.querySelector('button[type="submit"]');
 for (let key in fieldsets) {
     if (fieldsets.hasOwnProperty(key)) {
-        console.log(form);
-        console.log(submit);
-        console.log(fieldsets[key]);
         form.firstChild.insertBefore(fieldsets[key], submit.parentNode);
     }
 }
