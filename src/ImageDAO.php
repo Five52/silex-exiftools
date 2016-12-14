@@ -28,4 +28,8 @@ class ImageDAO
         $image->setId($id)->setExtension($extension);
         return $image;
     }
+
+    public static function exists(Image $image) {
+        return file_exists($image->getPath());
+    }
 }

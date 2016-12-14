@@ -6,6 +6,7 @@ use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\TranslationServiceProvider;
 use Silex\Provider\CsrfServiceProvider;
+use Silex\Provider\SessionServiceProvider;
 
 ErrorHandler::register();
 ExceptionHandler::register();
@@ -16,6 +17,8 @@ $app->register(new CsrfServiceProvider());
 $app->register(new TranslationServiceProvider(),  [
     'locale' => 'fr'
 ]);
+
+$app->register(new SessionServiceProvider());
 
 $app->register(new TwigServiceProvider(), [
     "twig.path" => __DIR__."/../views/"
