@@ -32,7 +32,7 @@ class ExifTools
     * @return <array>image meta
     * @throws specific exception if doesn't find img file
     */
-    public static function getImgMeta(Image $img): array
+    public static function getImgMeta(Image $img)
     {
         if (file_exists($img->getPath())) {
             //if the json file doesn't exist we generate it
@@ -162,7 +162,7 @@ class ExifTools
     * @return <string>link of file xmp sidecar metadata link
     * @throws specific exception if doesn't find img or xmp file.
     */
-    public static function generateXmpLink(Image $img): string
+    public static function generateXmpLink(Image $img)
     {
         if (file_exists($img->getPath())) {
             //get the xmp image name:

@@ -42,7 +42,7 @@ class Image
         return self::IMG_PATH . '/' . $this->getName();
     }
 
-    public function getLatestMeta(): array
+    public function getLatestMeta()
     {
         if ($this->latestMeta === null) {
             $this->latestMeta = ExifTools::getImgMeta($this);
@@ -50,7 +50,7 @@ class Image
         return $this->latestMeta;
     }
 
-    public function getBasicMeta(): array
+    public function getBasicMeta()
     {   
         if ($this->basicMeta === null) {
             $meta = self::getLatestMeta();
@@ -88,7 +88,7 @@ class Image
             } elseif (array_key_exists('IPTC:Credit', $meta)) {
                 $basicMeta['author'] = $meta['IPTC:Credit'];
             } else {
-                $basicMeta['author'] = "Author unknow";
+                $basicMeta['author'] = "Author unknown";
             }
             $this->basicMeta = $basicMeta;
         }
