@@ -157,9 +157,12 @@ fieldset > legend {
 #form label {
     width: 200px;
     float: left;
-    display: block;
     text-align: right;
     margin-right: 10px;
+}
+
+#form label::after {
+    clear: both;
 }
 
 form input[type=text] {
@@ -214,6 +217,12 @@ button[type=submit]:hover, #utilLinks a:hover {
     margin-left: 10px;
     height: 19px;
     color: #aa0022;
+}
+
+.form-errors {
+    color: #aa0022;
+    list-style: none;
+    float: right;
 }
 
 /* RESPONSIVE */
