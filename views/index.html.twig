@@ -17,6 +17,8 @@
                     author: {{ image.basicMeta.author }}
                 </figcaption>
             </figure>
+        {% else %}
+            <p>Il n'y a pas encore d'images dans la galerie. <a href="{{ path('add') }}">Ajoutez-en une !</a></p>
         {% endfor  %}
     </div>
 {% endblock %}
