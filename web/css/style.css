@@ -208,6 +208,14 @@ button[type=submit]:hover, #utilLinks a:hover {
     color: #aa0022;
     background-color: #FFF;
 }
+
+.lock::after {
+    content: "🔒";
+    margin-left: 10px;
+    height: 19px;
+    color: #aa0022;
+}
+
 /* RESPONSIVE */
 
 @media screen and (max-width: 1100px) {

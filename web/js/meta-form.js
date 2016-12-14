@@ -22,19 +22,18 @@ let submit = document.querySelector('button[type="submit"]');
 for (let key in fieldsets) {
     if (fieldsets.hasOwnProperty(key)) {
         form.firstChild.insertBefore(fieldsets[key], submit.parentNode);
+        if (
+            fieldsets[key].id !== 'XMP'
+            && fieldsets[key].id !== 'IPTC'
+            && fieldsets[key].id !== 'EXIF'
+        ) {
+            fieldsets[key].querySelectorAll('div').forEach((div) => {
+                let input = div.querySelector('input[type="text"]');
+                input.setAttribute("readonly", "readonly");
+                let elt = document.createElement('span');
+                elt.className = 'lock';
+                div.appendChild(elt);
+            })
+        }
     }
 }
-
-fieldsets.forEach((fieldset) => {
-    if (
-        fieldset.id === 'XMP'
-        || fieldset.id === 'IPTC'
-        || fieldset.id === 'EXIF'
-    ) {
-        fieldset.querySelectorAll('div').forEach((div) => {
-            let elt = document.createElement('span');
-            elt.className = 'lock';
-            div.appendChild(elt);
-        })
-    }
-});
