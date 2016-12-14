@@ -26,17 +26,28 @@ const countryXmp = document.querySelector('[name="form\[XMP:Country\]"]');
 
 //form is already define in meta-form.js
 form.onsubmit = function(event) {
+    event.preventDefault();
     console.log(event);
     let consistency = consistencyCheck();
 
     if (!consistency) {
-        let inconsistencyInfo = document.querySelector("#inconsistencyInfo");
-        inconsistencyInfo.innerHTML = `
-            <p>Il existe des incohérences dans les métadonnées renseignées:</p>
-            <button id="applyConsistencyXmp">Préférer XMP</button>
-            <button id="applyConsistencyIptc">Conserver les incohérences</button>
-            <button id="applyInconsistency">Préférer IPTC</button>
-        `;
+        if (document.querySelector("#inconsistencyInfo") == null) {
+            let updateForm = document.querySelector("#updateForm");
+            let inconsistencyInfo = document.createElement("div");
+            inconsistencyInfo.setAttribute("id", "inconsistencyInfo");
+            inconsistencyInfo.innerHTML = `
+                <p>Il existe des incohérences dans les métadonnées renseignées:</p>
+                <button id="applyConsistencyXmp">Préférer XMP</button>
+                <button id="applyConsistencyIptc">Conserver les incohérences</button>
+                <button id="applyInconsistency">Préférer IPTC</button>
+            `;
+
+            updateForm.insertBefore(inconsistencyInfo, updateForm.firstChild);
+        }
+        //we take back the user where the error is display
+        //These = = = are needed to have a full bowsers compatibility
+        window.pageYOffset = document.documentElement.scrollTop = document.body.scrollTop = document.querySelector("#utilLinks").offsetTop;
+
         return false; //the form is not consistent, we stop the sending.
     } 
     return true; //the form is consistent so we send it.
