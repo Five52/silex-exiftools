@@ -80,7 +80,8 @@ $app->match(
         $formBuilder = $app->form($meta);
         foreach ($meta as $key => $value) {
             $formBuilder->add($key, TextType::class, [
-                'label' => $key
+                'label' => $key,
+                'required' => false
             ]);
         }
         $formBuilder->add('submit', SubmitType::class, ['label' => 'Mettre à jour']);
