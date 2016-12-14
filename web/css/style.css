@@ -136,6 +136,10 @@ h2 {
     max-width: 90%;
 }
 
+#form-update > #form > div:first-child {
+    display: none;
+}
+
 fieldset {
     padding: 20px;
     margin: 20px;
