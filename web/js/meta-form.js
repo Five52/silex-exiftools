@@ -9,7 +9,7 @@ labels.forEach((label) => {
         if (!fieldsets.hasOwnProperty(name)) {
             let fieldset = document.createElement('fieldset');
             fieldset.id = name;
-            fieldset.innerHTML = '<legend>' + name;
+            fieldset.innerHTML = '<legend>' + name + '</legend>';
             fieldsets[name] = fieldset;
         }
         label.textContent = splitted[1].trim();
