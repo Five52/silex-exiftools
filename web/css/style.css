@@ -225,6 +225,16 @@ button[type=submit]:hover, #utilLinks a:hover {
     float: right;
 }
 
+#flash-message {
+    margin: 20px auto;
+    background-color: #080;
+    text-align: center;
+    color: #FFF;
+    box-shadow: 0px 0 20px 0px #8AACBD;
+    padding: 20px;
+    border-radius: 5px;
+}
+
 /* RESPONSIVE */
 
 @media screen and (max-width: 1100px) {
