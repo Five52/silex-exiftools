@@ -7,6 +7,11 @@
 {% block main %}
     <h2>Ajout d'une image</h2>
 
-    {{ form(form) }}
+    {% form_theme form 'form_errors.html.twig' %}
+
+    {{ form(form) }} 
 {% endblock %}
 
+{% block javascript %}
+    
+{% endblock %}

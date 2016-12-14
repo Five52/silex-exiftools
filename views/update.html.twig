@@ -61,6 +61,8 @@
     </section>
     <section id="updateForm">
         <div id="inconsistencyInfo"></div>
+        {% form_theme form 'form_errors.html.twig' %}
+     
         {{ form(form) }}
     </section>
 {% endblock %}
