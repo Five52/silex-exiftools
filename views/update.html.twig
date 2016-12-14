@@ -59,11 +59,13 @@
             <a href="{{ image.xmpPath }}" download>Metadata sidecar XMP download</a>
         </div>
     </section>
-    <section id="updateForm"> 
+    <section id="updateForm">
+        <div id="inconsistencyInfo"></div>
         {{ form(form) }}
     </section>
 {% endblock %}
 
 {% block javascript %}
     <script src="{{ root }}js/meta-form.js"></script>
+    <script src="{{ root }}js/consistency-handler.js"></script>
 {% endblock %}
