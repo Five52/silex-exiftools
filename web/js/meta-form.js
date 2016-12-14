@@ -24,3 +24,17 @@ for (let key in fieldsets) {
         form.firstChild.insertBefore(fieldsets[key], submit.parentNode);
     }
 }
+
+fieldsets.forEach((fieldset) => {
+    if (
+        fieldset.id === 'XMP'
+        || fieldset.id === 'IPTC'
+        || fieldset.id === 'EXIF'
+    ) {
+        fieldset.querySelectorAll('div').forEach((div) => {
+            let elt = document.createElement('span');
+            elt.className = 'lock';
+            div.appendChild(elt);
+        })
+    }
+});
