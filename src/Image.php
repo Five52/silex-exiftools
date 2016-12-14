@@ -100,4 +100,17 @@ class Image
         return ExifTools::generateXmpLink($this);
     }
 
+    public function updateMeta(array $meta) {
+        $dataToClean = ['XMP:Subject','IPTC:Keywords'];
+        foreach($dataToClean as $key) {
+            if (array_key_exists($key, $meta)) {
+                $arrayToClean = explode(',', $meta[$key]);
+                foreach($arrayToClean as &$dataToClean) {
+                    $dataToClean = trim($dataToClean);
+                }
+                $meta[$key] = $arrayToClean;
+            }
+        }
+        ExifTools::setImgMeta([$meta], $this);
+    }
 }

@@ -41,18 +41,20 @@ $app->match('/add', function(Request $request) use ($app) {
     if ($request->isMethod('POST') && $form->isValid()) {
         $data = $form->getData();
         $file = $data['file'];
-        $image = new Image();
-        $image->setExtension($file->guessExtension());
-        do {
-            $image->setId(md5(uniqid()));
-        } while (file_exists($image->getPath()));
+        if ($file !== null) {
+            $image = new Image();
+            $image->setExtension($file->guessExtension());
+            do {
+                $image->setId(substr(md5(uniqid()), 0, 8));
+            } while (ImageDAO::exists($image));
 
-        $file->move(Image::IMG_PATH, $image->getName());
-        // ExifTools::generateImgMeta($fileName);
-        return $app->redirect($app->path('update', [
-            'id' => $image->getId(),
-            'extension' => $image->getExtension()
-        ]));
+            $file->move(Image::IMG_PATH, $image->getName());
+            // ExifTools::generateImgMeta($fileName);
+            return $app->redirect($app->path('update', [
+                'id' => $image->getId(),
+                'extension' => $image->getExtension()
+            ]));
+        }
     }
 
     return $app->render('add.html.twig', [
@@ -66,12 +68,15 @@ $app->match(
     function($id, $extension, Request $request) use ($app) {
         $image = ImageDAO::get($id, $extension);
         $meta = $image->getLatestMeta();
+
+        // Transform array data to a string for the form 
         foreach ($meta as $key => $value) {
             if (is_array($value)) {
                 $meta[$key] = implode(', ', $value);
             }
         }
 
+        // Create form
         $formBuilder = $app->form($meta);
         foreach ($meta as $key => $value) {
             $formBuilder->add($key, TextType::class, [
@@ -83,7 +88,14 @@ $app->match(
 
         $form->handleRequest($request);
         if ($request->isMethod('POST') && $form->isValid()) {
-            return 'ok';
+            $data = $form->getData();
+            $image->updateMeta($data);
+
+            $app['session']->getFlashBag()->add('update', 'Métadonnées mises à jour !');
+            return $app->redirect($app->path('update', [
+                'id' => $image->getId(),
+                'extension' => $image->getExtension()
+            ]));
         }
 
         return $app->render('update.html.twig', [

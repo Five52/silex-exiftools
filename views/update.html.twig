@@ -33,6 +33,9 @@
 
 {% block main %}
     <h2>Métadonnées de l'image</h2>
+    {% for message in app.session.flashbag.get('update') %}
+        <div id="flash-message">{{ message }}</div>
+    {% endfor %}
     <section id="displayImg">
         <h3 class="imgTitle">{{ image.basicMeta.title }}</h3>
         <figure>
