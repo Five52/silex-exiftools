@@ -24,33 +24,146 @@ const usageTermsXmp = document.querySelector('[name="form\[XMP:UsageTerms\]"]');
 const cityXmp = document.querySelector('[name="form\[XMP:City\]"]');
 const countryXmp = document.querySelector('[name="form\[XMP:Country\]"]');
 
+let checkConsistency = true;
+
 //form is already define in meta-form.js
-form.onsubmit = function(event) {
-    event.preventDefault();
-    console.log(event);
-    let consistency = consistencyCheck();
+if (checkConsistency) {
+    form.onsubmit = function(event) {
+        event.preventDefault();
+        let consistency = consistencyCheck();
 
-    if (!consistency) {
-        if (document.querySelector("#inconsistencyInfo") == null) {
-            let updateForm = document.querySelector("#updateForm");
-            let inconsistencyInfo = document.createElement("div");
-            inconsistencyInfo.setAttribute("id", "inconsistencyInfo");
-            inconsistencyInfo.innerHTML = `
-                <p>Il existe des incohérences dans les métadonnées renseignées:</p>
-                <button id="applyConsistencyXmp">Préférer XMP</button>
-                <button id="applyConsistencyIptc">Conserver les incohérences</button>
-                <button id="applyInconsistency">Préférer IPTC</button>
-            `;
+        if (!consistency) {
+            if (document.querySelector("#inconsistencyInfo") == null) {
+                let updateForm = document.querySelector("#updateForm");
+                let inconsistencyInfo = document.createElement("div");
+                inconsistencyInfo.setAttribute("id", "inconsistencyInfo");
+                inconsistencyInfo.innerHTML = `
+                    <p>Il existe des incohérences dans les métadonnées renseignées:</p>
+                    <button id="applyConsistencyXmp">Préférer XMP</button>
+                    <button id="applyInconsistency">Conserver les incohérences</button>
+                    <button id="applyConsistencyIptc">Préférer IPTC</button>
+                `;
 
-            updateForm.insertBefore(inconsistencyInfo, updateForm.firstChild);
-        }
-        //we take back the user where the error is display
-        //These = = = are needed to have a full bowsers compatibility
-        window.pageYOffset = document.documentElement.scrollTop = document.body.scrollTop = document.querySelector("#utilLinks").offsetTop;
+                updateForm.insertBefore(inconsistencyInfo, updateForm.firstChild);
+                inconsistencyButtonListener();
+            }
+            //we take back the user where the error is display
+            //These = = = are needed to have a full bowsers compatibility
+            window.pageYOffset = document.documentElement.scrollTop = document.body.scrollTop = document.querySelector("#utilLinks").offsetTop;
 
-        return false; //the form is not consistent, we stop the sending.
+            return false; //the form is not consistent, we stop the sending.
+        } 
+        form.submit(); //the form is consistent so we send it.
+    }
+}
+
+function inconsistencyButtonListener() {
+    //set up the listener needed
+    let applyXmp = document.querySelector("#applyConsistencyXmp");
+    let applyIptc = document.querySelector("#applyConsistencyIptc");
+    let applyInconsistency = document.querySelector("#applyInconsistency");
+
+    applyXmp.onclick = function(event) {
+        applyConsistencyMesure("applyXmp");
+    }
+
+    applyIptc.onclick = function(event) {
+        applyConsistencyMesure("applyIptc");
+    }
+
+    applyInconsistency.onclick = function(event) {
+        applyConsistencyMesure("applyInconsistency");
     } 
-    return true; //the form is consistent so we send it.
+}
+    
+function applyConsistencyMesure(type) {
+
+    if (type == "applyInconsistency") {
+        //we indicate to don't check consistency again and send the form
+        checkConsistency = false;
+        form.submit();
+        return null;
+    }
+            
+    //we normalize the form with the choosen metadata type
+    //we don't send automaticaly the form to let the user check.
+    if (objectNameIptc !== null && titleXmp !== null) {
+        if (type == "applyXmp") {
+            objectNameIptc.value = titleXmp.value;
+        } else if (type == "applyIptc") {
+            titleXmp.value = objectNameIptc.value;
+        }
+    }
+    if (headlineIptc !== null && headlineXmp !== null) {
+        if (type == "applyXmp") {
+            headlineIptc.value = headlineXmp.value;
+        } else if (type == "applyIptc") {
+            headlineXmp.value = headlineIptc.value;
+        }
+    }
+    if (byLineIptc !== null && creatorXmp !== null) {
+        if (type == "applyXmp") {
+            byLineIptc.value = creatorXmp.value;
+        } else if (type == "applyIptc") {
+            creatorXmp.value = byLineIptc.value;
+        }
+    }
+    if (creditIptc !== null && creditXmp !== null) {
+        if (type == "applyXmp") {
+            creditIptc.value = creditXmp.value;
+        } else if (type == "applyIptc") {
+            creditXmp.value = creditIptc.value;
+        }
+    }
+    if (sourceIptc !== null && sourceXmp !== null) {
+        if (type == "applyXmp") {
+            sourceIptc.value = sourceXmp.value;
+        } else if (type == "applyIptc") {
+            sourceXmp.value = sourceIptc.value;
+        }
+    }
+    if (captionAbstractIptc !== null && descriptionXmp !== null) {
+        if (type == "applyXmp") {
+            captionAbstractIptc.value = descriptionXmp.value;
+        } else if (type == "applyIptc") {
+            descriptionXmp.value = captionAbstractIptc.value;
+        }
+    }
+    if (dateCreatedIptc !== null && dateCreatedXmp !== null) {
+        if (type == "applyXmp") {
+            dateCreatedIptc.value = dateCreatedXmp.value;
+        } else if (type == "applyIptc") {
+            dateCreatedXmp.value = dateCreatedIptc.value;
+        }
+    }
+    if (provinceStateIptc !== null && stateXmp !== null) {
+        if (type == "applyXmp") {
+            provinceStateIptc.value = stateXmp.value;
+        } else if (type == "applyIptc") {
+            stateXmp.value = provinceStateIptc.value;
+        }
+    }
+    if (copyrightNoticeIptc !== null && usageTermsXmp !== null) {
+        if (type == "applyXmp") {
+            copyrightNoticeIptc.value = usageTermsXmp.value;
+        } else if (type == "applyIptc") {
+            usageTermsXmp.value = copyrightNoticeIptc.value;
+        }
+    }
+    if (cityIptc !== null && cityXmp !== null) {
+        if (type == "applyXmp") {
+            cityIptc.value = cityXmp.value;
+        } else if (type == "applyIptc") {
+            cityXmp.value = cityIptc.value;
+        }
+    }
+    if (countryPrimaryIptc !== null && countryXmp !== null) {
+        if (type == "applyXmp") {
+            countryPrimaryIptc.value = countryXmp.value;
+        } else if (type == "applyIptc") {
+            countryXmp.value = countryPrimaryIptc.value;
+        }
+    }
 }
 
 function consistencyCheck() {
