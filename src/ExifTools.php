@@ -2,17 +2,17 @@
 namespace ExifTools;
 
 /**
-* A class to invoke methods on exifTool software
-*/
+ * A class to invoke methods on exifTool software
+ */
 class ExifTools
 {
 
     const META_PATH = "../web/files/metadata/";
     /**
-    * Static method to extract metadata with exiftool and create a json file of it.
-    * @param <Image>instance of the target image
-    * @throws specific exception if doesn't find file.
-    */
+     * Static method to extract metadata with exiftool and create a json file of it.
+     * @param <Image>instance of the target image
+     * @throws specific exception if doesn't find file.
+     */
     public static function generateImgMeta(Image $img)
     {
         if (file_exists($img->getPath())) {
@@ -27,11 +27,11 @@ class ExifTools
     }
 
     /**
-    * Static method to return metadata from it json file.
-    * @param <Image>instance of the target image
-    * @return <array>image meta
-    * @throws specific exception if doesn't find img file
-    */
+     * Static method to return metadata from it json file.
+     * @param <Image>instance of the target image
+     * @return <array>image meta
+     * @throws specific exception if doesn't find img file
+     */
     public static function getImgMeta(Image $img)
     {
         if (file_exists($img->getPath())) {
@@ -60,10 +60,10 @@ class ExifTools
     }
 
     /**
-    * Static method to update jsonFile and image metadata.
-    * @param <array>metada array to push in the img, <Image>instance of the target image
-    * @throws specific exception if doesn't find img or json file.
-    */
+     * Static method to update jsonFile and image metadata.
+     * @param <array>metada array to push in the img, <Image>instance of the target image
+     * @throws specific exception if doesn't find img or json file.
+     */
     public static function setImgMeta(array $meta, Image $img)
     {
         if (file_exists($img->getPath())) {
@@ -107,10 +107,10 @@ class ExifTools
     }
 
     /**
-    * Static method to restaure original metadata of the image.
-    * @param <Image>instance of the target image
-    * @throws specific exception if doesn't find img or json file.
-    */
+     * Static method to restaure original metadata of the image.
+     * @param <Image>instance of the target image
+     * @throws specific exception if doesn't find img or json file.
+     */
     public static function resetOriginalMeta(Image $img)
     {
         if (file_exists($img->getPath())) {
@@ -132,10 +132,10 @@ class ExifTools
     }
 
     /**
-    * Static method to restaure last metadata of the image.
-    * @param <Image>instance of the target image
-    * @throws specific exception if doesn't find img or json file.
-    */
+     * Static method to restaure last metadata of the image.
+     * @param <Image>instance of the target image
+     * @throws specific exception if doesn't find img or json file.
+     */
     public static function resetLastMeta(Image $img)
     {
         if (file_exists($img->getPath())) {
@@ -157,11 +157,11 @@ class ExifTools
     }
 
     /**
-    * Static method to generate xmp file and return download link.
-    * @param <Image>instance of the target image
-    * @return <string>link of file xmp sidecar metadata link
-    * @throws specific exception if doesn't find img or xmp file.
-    */
+     * Static method to generate xmp file and return download link.
+     * @param <Image>instance of the target image
+     * @return <string>link of file xmp sidecar metadata link
+     * @throws specific exception if doesn't find img or xmp file.
+     */
     public static function generateXmpLink(Image $img)
     {
         if (file_exists($img->getPath())) {
@@ -179,4 +179,18 @@ class ExifTools
         }
     }
 
+    /**
+     * Static method to delete metadata files of the image.
+     * @param <Image>instance of the target image
+     */
+    public static function deleteMetaFiles(Image $image)
+    {
+        $filesExtensions = ['json', 'json.original', 'json.old', 'xmp'];
+        foreach ($filesExtensions as $extension) {
+            $file = self::META_PATH . $image->getId() . '.' . $extension;
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+    }
 }

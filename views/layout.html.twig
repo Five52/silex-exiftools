@@ -17,7 +17,11 @@
 <body>
     {% include 'partials/header.html.twig' %}
     <main>
-        {% block main %}{% endblock %}
+        {% block main %}
+            {% for message in app.session.flashbag.get('message') %}
+                <div id="flash-message">{{ message }}</div>
+            {% endfor %}
+        {% endblock %}
     </main>
     {% block javascript %}{% endblock %}
 </body>
