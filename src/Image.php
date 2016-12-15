@@ -117,7 +117,18 @@ class Image
         return ExifTools::generateXmpLink($this);
     }
 
-    public function updateMeta(array $meta) {
+    public function resetOriginalMeta()
+    {
+        ExifTools::resetOriginalMeta($this);
+    }
+
+    public function resetLastMeta()
+    {
+        ExifTools::resetLastMeta($this);
+    }
+
+    public function updateMeta(array $meta)
+    {
         $dataToClean = ['XMP:Subject','IPTC:Keywords'];
         foreach($dataToClean as $key) {
             if (array_key_exists($key, $meta)) {
