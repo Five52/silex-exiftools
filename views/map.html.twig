@@ -1,7 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-    Accueil - {{ parent() }}
+    Map - {{ parent() }}
 {% endblock %}
 
 {% block main %}
@@ -15,7 +15,7 @@
             {% autoescape 'js' %}
                 var desc = "{{ image.basicMeta.description }}";
             {% endautoescape  %}
-            getGeoCodeCity("{{ image.name }}", desc, "{{ image.path }}", "{{ image.location }}");
+            getGeoCodeCity("{{ image.basicMeta.title }}", desc, "{{ image.path }}", "{{ image.location }}");
         </script>
     {% endfor %}
 {% endblock %}
