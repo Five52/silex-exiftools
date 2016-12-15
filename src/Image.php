@@ -45,6 +45,23 @@ class Image
         return self::IMG_PATH . '/' . $this->getName();
     }
 
+    public function getLocation()
+    {
+        $meta =  self::getLatestMeta();
+
+        if (array_key_exists('XMP:Location', $meta)) {
+            return $meta['XMP:Location'];
+        } elseif (array_key_exists('XMP:City', $meta)) {
+            if (array_key_exists('XMP:Country', $meta)) {
+                return $meta['XMP:City'] . ", " . $meta['XMP:Country'];
+            }
+            return $meta['XMP:City'];
+        } elseif (array_key_exists('IPTC:City', $meta)) {
+             return $meta['IPTC:City'];
+        }
+        return null;
+    }
+
     public function getLatestMeta()
     {
         if ($this->latestMeta === null) {
@@ -101,6 +118,16 @@ class Image
     public function getXmpPath()
     {
         return ExifTools::generateXmpLink($this);
+    }
+
+    public function resetOriginalMeta()
+    {
+        ExifTools::resetOriginalMeta($this);
+    }
+
+    public function resetLastMeta()
+    {
+        ExifTools::resetLastMeta($this);
     }
 
     /**

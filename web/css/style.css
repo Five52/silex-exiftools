@@ -70,7 +70,7 @@ body {
 }
 
 main {
-    padding-top: 100px;
+    padding: 80px 20px;
     max-width: 1300px;
     margin: auto;
 }
@@ -267,11 +267,64 @@ button[type=submit]:hover, #utilLinks a:hover {
     background-color: #FFF;
 }
 
+#map {
+    width: 95%;
+    height: 650px;
+    margin: auto;
+    box-shadow: 0px 0 20px 0px #8AACBD;
+    border: 5px solid #FFF;
+}
+
+.map-figure {
+    max-height: 300px;
+    max-width: 400px;
+    margin: 10px auto;
+    display: block;
+}
+
+.map-figure img {
+    max-height: 200px;
+    margin: 10px auto;
+    display: inherit;
+}
+
+.map-figure figcaption {
+    text-align: center;
+}
+
+.map-figure figcaption span {
+    font-weight: bold;
+    margin: 5px;
+    color: #aa0022;
+}
+
+#about > * {
+    margin: 15px 0;
+}
+
+#about > ul > li {
+    list-style-position: inside;
+    margin: 20px 0;
+}
+
+#about ul li ul {
+    list-style: none;
+    margin-left: 25px;
+}
+
+#about ul li ul li {
+    margin: 10px 0;
+}
+
+#about ul li ul li:before {
+    content: "\2192\0020";
+}
+
 /* RESPONSIVE */
 
 @media screen and (max-width: 1100px) {
     header {
-        height: 160px;
+        height: 140px;
     }
 
     header #menu {

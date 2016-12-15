@@ -43,16 +43,6 @@ class ExifTools
 
             $content = file_get_contents($jsonPath);
             $metaArray = json_decode($content, true)[0];
-            // //modelize array:
-            // $metaArray = [];
-            // foreach ($json as $key => $value) {
-            //     $str = explode(':', $key);
-            //     if (array_key_exists(1, $str)) {
-            //         $metaArray[$str[0]][$str[1]] = $value;
-            //     } else {
-            //         $metaArray[$key] = $value;
-            //     }
-            // }
         } else {
             throw new \Exception("Error, image file doesn't exist");
         }
@@ -71,28 +61,11 @@ class ExifTools
             $jsonPath = self::META_PATH . $img->getId() . ".json";
 
             if (file_exists($jsonPath)) {
-
-                //pushing the change to the image (we drop the old one and push the new one instead)
-
-                //     //normalize array for json parsing:
-                // $metaArray = [];
-                // foreach ($meta as $category => $key) {
-                //     if (is_array($meta[$category])) {
-                //         foreach ($key as $tag => $value) {
-                //             $metaArray[$category . ":" . $tag] = $value;
-                //         }
-                //     } else {
-                //         $metaArray[$category] = $key;
-                //     }
-                // }
-
-                    //convert array in json and update the file
+                //convert array in json and update the file
                 $jsonArray = json_encode($meta);
-                    //we keep a copy of the metadata before changing it
+                //we keep a copy of the metadata before changing it
                 copy($jsonPath, $jsonPath . ".old");
-                $file = fopen($jsonPath, 'w');
-                fwrite($file, $jsonArray);
-                fclose($file);
+                file_put_contents($jsonPath, $jsonArray);
 
                 //update metada of the image:
                 $command = "exiftool -j=" . $jsonPath . " -G -m -overwrite_original " . $img->getPath();

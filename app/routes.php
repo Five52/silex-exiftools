@@ -19,6 +19,14 @@ $app->get('/', function(Request $request) use ($app) {
 })
 ->bind('home');
 
+$app->match('/map', function(Request $request) use ($app) {
+
+    return $app->render('map.html.twig', array(
+        'images' => ImageDAO::getAll()
+    ));
+})
+->bind('map');
+
 $app->get('/image', function() {
     return 'Image added';
 })

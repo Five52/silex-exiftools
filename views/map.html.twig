@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Map - {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <h2>Map</h2>
+    <div id="map"></div>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAekUYGjqcPEUZscWl7uIEV72NtWrRdOjg"></script>
+    <script type="text/javascript" src="{{ root }}js/meta-map.js"></script>
+
+    {% for image in images %}
+        <script>
+            {% autoescape 'js' %}
+                var desc = "{{ image.basicMeta.description }}";
+            {% endautoescape  %}
+            getGeoCodeCity("{{ image.basicMeta.title }}", desc, "{{ image.path }}", "{{ image.location }}");
+        </script>
+    {% endfor %}
+{% endblock %}
