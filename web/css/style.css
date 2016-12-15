@@ -267,6 +267,14 @@ button[type=submit]:hover, #utilLinks a:hover {
     background-color: #FFF;
 }
 
+#map {
+    width: 95%;
+    height: 650px;
+    margin: auto;
+    box-shadow: 0px 0 20px 0px #8AACBD;
+    border: 5px solid #FFF;
+}
+
 /* RESPONSIVE */
 
 @media screen and (max-width: 1100px) {
