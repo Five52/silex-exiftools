@@ -75,7 +75,6 @@
     {% set categories = image.metaCategory %}
     {% if categories %}
         <div id="quickNavigation">
-            <h5>Navigation rapide:</h5>
         {% for category in categories %}
             <a href="#{{category}}" title="Allez à {{category}}" id="scroll-{{category}}">Allez à {{category}}</a>
         {% endfor %}
@@ -84,7 +83,12 @@
 {% endblock %}
 
 {% block javascript %}
+    <!-- we need to pass the categories to the js, use in quickCategoryNav.js -->
+    <script>
+        let categories = {{ image.metaCategory|json_encode|raw }};
+    </script>  
     {{ parent() }}
     <script src="{{ root }}js/meta-form.js"></script>
     <script src="{{ root }}js/consistency-handler.js"></script>
+    <script src="{{ root }}js/quickCategoryNav.js"></script>
 {% endblock %}

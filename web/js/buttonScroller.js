@@ -17,10 +17,12 @@ if (displayNavigationButton) {
     scrollBottom.style.display = "block";
 
     scrollTop.onclick = function(event) {
-        window.pageYOffset = 0;
+        event.preventDefault();
+        window.pageYOffset = document.documentElement.scrollTop = document.body.scrollTop = 0;
     }
 
     scrollBottom.onclick = function(event) {
-        window.pageYOffset = totalHeight;
+        event.preventDefault();
+        window.pageYOffset = document.documentElement.scrollTop = document.body.scrollTop = totalHeight;
     }
 }
