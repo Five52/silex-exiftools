@@ -92,7 +92,7 @@ h2 {
     right: 25px;
     bottom: 100px;
     opacity: 0.8;
-    font-size: 18px;
+    font-size: 16px;
     display: flex;
     flex-direction: column;
 }
@@ -103,17 +103,17 @@ h2 {
 }
 
 
-#scroll-ctrls * {
-    margin: 2px 0 2px auto;
+#scroll-ctrls h5 {
+    margin: auto;
 }
 
 #scroll-ctrls a {
-    height: 40px;
     color: #FFF;
     background-color: #aa0022;
     opacity: .5;
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
+    margin: 2px 0 2px auto;
 }
 
 #scroll-ctrls #quickNavigation a {
