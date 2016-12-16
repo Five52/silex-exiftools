@@ -87,8 +87,3 @@ function doRequest(url, callback) {
     xhr.send();
     return xhr;
 }
-
-console.log(flickr);
-console.log(tags);
-
-
