@@ -75,7 +75,7 @@
     {% set categories = image.metaCategory %}
     {% if categories %}
         <div id="quickNavigation">
-            <h3>Navigation rapide:</h3>
+            <h5>Navigation rapide:</h5>
         {% for category in categories %}
             <a href="#{{category}}" title="Allez à {{category}}" id="scroll-{{category}}">Allez à {{category}}</a>
         {% endfor %}

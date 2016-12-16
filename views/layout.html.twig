@@ -21,11 +21,13 @@
                 <div id="flash-message">{{ message }}</div>
             {% endfor %}
         {% endblock %}
-    <a href="#haut" title="Haut de page" id="scroll-top">&#8593;</a>
-    {% block metaPager %}
-    {% endblock %}
-    <a href="#bas" title="Bas de page" id="scroll-bottom">&#8595;</a>
-    <div id="bas"></div>
+        <div id="scroll-ctrls">
+            <a href="#haut" title="Haut de page" id="scroll-top">&#8593;</a>
+            {% block metaPager %}
+            {% endblock %}
+            <a href="#bas" title="Bas de page" id="scroll-bottom">&#8595;</a>
+        </div>
+        <div id="bas"></div>
     </main>
     {% include 'partials/footer.html.twig' %}
     {% block javascript %}
