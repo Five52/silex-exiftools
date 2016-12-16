@@ -58,9 +58,28 @@ class Image
         return self::URI;
     }
 
+    /**
+     * Return every meta category existing for an image excepted ExifTool and sourceFile.
+     * @return <array> containing category name
+     */
+    public function getMetaCategory()
+    {   
+        $categories = [];
+        $meta = self::getLatestMeta();
+        foreach ($meta as $key => $value) {
+            $category = explode(':', $key)[0];
+            if ($category != "SourceFile" && $category != "ExifTool"){
+                if (!in_array($category, $categories)) {
+                    $categories[] = $category;
+                }
+            }
+        }
+        return $categories;
+    }
+
     public function getLocation()
     {
-        $meta =  self::getLatestMeta();
+        $meta = self::getLatestMeta();
 
         if (array_key_exists('XMP:Location', $meta)) {
             return $meta['XMP:Location'];

@@ -71,7 +71,20 @@
     </section>
 {% endblock %}
 
+{% block metaPager %}
+    {% set categories = image.metaCategory %}
+    {% if categories %}
+        <div id="quickNavigation">
+            <h3>Navigation rapide:</h3>
+        {% for category in categories %}
+            <a href="#{{category}}" title="Allez à {{category}}" id="scroll-{{category}}">Allez à {{category}}</a>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
 {% block javascript %}
+    {{ parent() }}
     <script src="{{ root }}js/meta-form.js"></script>
     <script src="{{ root }}js/consistency-handler.js"></script>
 {% endblock %}
