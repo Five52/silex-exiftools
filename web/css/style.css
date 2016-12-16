@@ -136,7 +136,7 @@ h2 {
     max-width: 90%;
 }
 
-#form-update > #form > div:first-child {
+#form-update > #form > div:first-child, #form-update #ExifTool {
     display: none;
 }
 
