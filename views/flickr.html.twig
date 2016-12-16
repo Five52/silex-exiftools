@@ -6,6 +6,7 @@
 
 {% block main %}
     <h2>Recherche Flickr</h2>
+    <p id="flickr-back"><a href="{{ path('update', {'id': image.id, 'extension': image.extension}) }}">revenir à l'image</a></p>
     {% if not image.tags %}
         <p>Définissez des mots-clés dans XMP:Subject ou IPTC:Keywords pour la recherche Flickr.</p>
     {% endif %}

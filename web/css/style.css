@@ -240,9 +240,7 @@ form input[type=text] {
     justify-content: center;
 }
 
-#utilLinks a {
-    display: flex;
-    align-items: center;
+#utilLinks a, #flickr-back a {
     border: 1px solid #aa0022;
     color: #FFF;
     background-color: #aa0022;
@@ -250,6 +248,11 @@ form input[type=text] {
     margin: 5px;
     padding: 10px;
     transition: background-color .5s, color .5s;
+}
+
+#utilLinks a {
+    display: flex;
+    align-items: center;
 }
 
 button[type=submit], button#more {
@@ -320,7 +323,7 @@ button#more {
     background-color: #f0f0f0;
 }
 
-button[type=submit]:hover, button#more:hover, #utilLinks a:hover {
+button[type=submit]:hover, button#more:hover, #utilLinks a:hover, #flickr-back a:hover {
     color: #aa0022;
     background-color: #FFF;
 }
