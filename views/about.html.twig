@@ -25,25 +25,25 @@
                 Page de de détail d'une image :
                 <ul>
                     <li>affichage de l'image, son titre, son créateur et sa licence</li>
-                    <li>affichage des métadonnées (préalablement extraite par exiftool) de l'image sous forme de formulaire</li>
+                    <li>affichage des métadonnées (préalablement extraites par exiftool) de l'image sous forme de formulaire</li>
                     <li>édition des métadonnées d'une image avec exiftool</li>
                     <li>génération d'un lien de téléchargement de l'image</li>
                     <li>génération d'un lien de téléchargement du fichier XMP Sidecar de l'image</li>
                     <li>génération dynamique des métadonnées Microdata, Open Graph et Twitter Cards</li>
                     <li>gestion des incohérences et proposition de normalisation automatique sans changement de page</li>
-                    <li>liens de navigation rapide vers chaque catégorie de métadonnée</li>
-                    <li>verouillage des champs ne pouvant être modifié ou qui ne sont pas pertinent à être modifié</li>
-                    <li>lien vers une page permettant de rechercher des images associées sur Flickr puis de retourner vers la page de détail de l'image</li>
+                    <li>liens de navigation rapide vers chaque catégorie de métadonnées</li>
+                    <li>verouillage des champs ne pouvant être modifiés ou qui ne devraient pas être modifié</li>
+                    <li>lien vers une page permettant de rechercher des images associées sur Flickr, avec génération supplémentaire à la demande, puis de retourner vers la page de détail de l'image</li>
                     <li>génération d'un lien permettant de rétablir les métadonnées originales de l'image</li>
                     <li>génération d'un lien permettant de revenir à la version antérieure des métadonnées d'une image</li>
                     <li>possibilité de supprimer une image et toute ses métadonnées associées par le biais d'un bouton</li>
                 </ul>
             </li>
             <li>
-                Page dajout d'une image :
+                Page d'ajout d'une image :
                 <ul>
                     <li>ajout d'une image dans la galerie</li>
-                    <li>génération des métadonnées et redirection vers la page de détails</li>
+                    <li>génération des métadonnées et redirection vers la page des détails de cette image</li>
                 </ul>
             </li>
             <li>
@@ -51,21 +51,21 @@
                 <ul>
                     <li>galerie des photos</li>
                     <li>avec affichage des photos, titres et auteurs</li>
-                    <li>lien vers la page de détail d'une image</li>
+                    <li>lien vers la page des détails de chaque image</li>
                 </ul>
             </li>
             <li>
                 Page map :
                 <ul>
-                    <li>affichage des locations des images sur une carte</li>
+                    <li>affichage des images sur une carte en fonction de leurs coordonnées</li>
                     <li>affichage de l'image, titre et descrition lorsque l'on clique sur un des points de la carte</li>
                 </ul>
             </li>
             <li>
                 Points globaux :
                 <ul>
-                    <li>affichage de scroller haut de page et bas de page si la hauteur de la fenêtre est inférieur à 1.5 fois la hauteur totale de la page.</li>
-                    <li>Les métadonnées ne sont extraite de l'image que lorsque celà est nécessaire (ajout et mise à jour)</li>
+                    <li>affichage de scroller haut de page et bas de page si la hauteur de la fenêtre est inférieure à 1.5 fois la hauteur totale de la page.</li>
+                    <li>Les métadonnées ne sont extraites de l'image que lorsque cela est nécessaire (à l'ajout et à la mise à jour)</li>
                 </ul>
             </li>
         </ul>
@@ -76,18 +76,18 @@
                 Technologies:
                 <ul>
                     <li>Framework: Silex</li>
-                    <li>Base de donnée: aucune</li>
+                    <li>Base de données: aucune</li>
                     <li>Moteur de template: Twig</li>
-                    <li>Langages: Php, JavaScript, Css, Html (+twig)</li>
-                    <li>Software: exifTool</li>
+                    <li>Langages: PHP, JavaScript, CSS, HTML / Twig</li>
+                    <li>Software: exiftool</li>
                     <li>Api: Flickr, GoogleMaps</li>
-                    <li>Versionage: Git</li>
+                    <li>Versionnage: Git</li>
                 </ul>
             </li>
             <li>
-                Spec:
+                Specs:
                 <ul>
-                    <li>Logique objet</li>
+                    <li>Logique Objet</li>
                     <li>Autoload et namespace</li>
                     <li>Gestion des routes</li>
                     <li>Gestion des erreurs</li>
@@ -97,10 +97,10 @@
             <li>
                 Choix techniques:
                 <ul>
-                    <li>Afin de ne charger qu'une seule fois nos métadonnées, nous générons/travaillons à partir de fichier json (dans nous conservons entre 2 et 3 versions afin de permettre un retour en arrière si souhaité).</li>
-                    <li>Nous n'utilisons pas l'API php d'exifTool mais directement le logiciel en bash (l'API proposant moins de fonctionnalités)</li>
+                    <li>Afin de ne charger qu'une seule fois nos métadonnées, nous générons/travaillons à partir de fichiers json (dont nous conservons entre 2 et 3 versions afin de permettre un retour en arrière si souhaité).</li>
+                    <li>Nous n'utilisons pas l'API PHP d'exiftool mais directement le logiciel en bash (l'API proposant moins de fonctionnalités)</li>
                     <li>
-                        Nous avons décidé d'appliquer notre gestion des incohérences (lors de l'édition de métadonnées) directement en front en JavaScript. Il y a trois raisons à celà:
+                        Nous avons décidé d'appliquer notre gestion des incohérences (lors de l'édition de métadonnées) directement en JavaScript. Il y a trois raisons à cela:
                         <ul>
                             <li>nous avons jugé qu'il serait plus ergonomique pour l'utilisateur d'avoir cette information directement dans la même page</li>
                             <li>nous avons souhaité laissé le choix à l'utilisateur de stocker des métadonnées incohérentes dans son image s'il le souhaite</li>
@@ -112,7 +112,7 @@
         </ul>
 
         <h3>Screen de validation TwitterCard & FacebookGraph</h3>
-        <p>Les outils de validation de métadonnées ont besoin d'une URL accessible, ce qui n'est pas le cas des serveurs dev de la fac (ni prod...). Nous avons donc copié les métadonnées générée automatiquement dans un simple fichier html sur un domaine personnel afin de pouvoir les tester.</p>
+        <p>Les outils de validation de métadonnées ont besoin d'une URL accessible, ce qui n'est pas le cas des serveurs dev de la fac (ni prod...). Nous avons donc copié les métadonnées générées automatiquement dans un simple fichier HTML sur un domaine personnel afin de pouvoir les tester.</p>
 
         <h4>Validation TwitterCard:</h4>
         <p>Test réalisé via le <a href="https://cards-dev.twitter.com/validator" target="blank">validateur Twitter</a></p>
@@ -121,5 +121,5 @@
         <h4>Validation FacebookGraph:</h4>
         <p>Test réalisé via le <a href="https://developers.facebook.com/tools/debug" target="blank">validateur Facebook</a></p>
         <img src="../media/facebookCardSample.png" alt="twitterCardSample" />
-    </div>        
+    </div>
 {% endblock %}
