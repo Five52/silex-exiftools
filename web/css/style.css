@@ -10,6 +10,10 @@
     src: url("../fonts/roboto/Roboto-Regular.ttf");
 }
 
+html {
+    height: 100%;
+}
+
 header {
     position: fixed;
     height: 60px;
@@ -67,6 +71,8 @@ header #menu {
 
 body {
     background-color: #f0f0f0;
+    position: relative;
+    min-height: 100%;
 }
 
 main {
@@ -373,11 +379,12 @@ footer {
     color: #FFF;
     background-color: #aa0022;
     text-align: center;
-    width: 100%;
     padding: 15px 0;
     font-weight: bold;
     position: absolute;
     bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 /* RESPONSIVE */
