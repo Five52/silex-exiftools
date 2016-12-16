@@ -7,6 +7,9 @@ namespace ExifTools;
 class Image
 {
     const IMG_PATH = "../web/files/img";
+    /* Const needed for generating facebook graph and twitter card (need absolute url) */
+    const URI = "https://dev-21101555.users.info.unicaen.fr";
+    const IMG_ABSOLUTE_PATH = "https://dev-21101555.users.info.unicaen.fr/M2-DNR2i/silex-exiftools/web/files/img";
 
     protected $id;
     protected $extension;
@@ -45,6 +48,16 @@ class Image
         return self::IMG_PATH . '/' . $this->getName();
     }
 
+    public function getAbsoluteImgPath()
+    {
+        return self::IMG_ABSOLUTE_PATH . '/' . $this->getName();
+    }
+
+    public function getUri()
+    {
+        return self::URI;
+    }
+
     public function getLocation()
     {
         $meta =  self::getLatestMeta();
@@ -75,6 +88,10 @@ class Image
         return $this->latestMeta;
     }
 
+    /**
+     * Return a selection of essential Meta use in multiple place in front.
+     * @return <array> containing Title, description and author
+     */
     public function getBasicMeta()
     {
         if ($this->basicMeta === null) {

@@ -9,7 +9,7 @@
     <meta name="twitter:site" content="@plabadille">
     <meta name="twitter:title" content="{{ image.basicMeta.title }}">
     <meta name="twitter:description" content="{{ image.basicMeta.description }}">
-    <meta name="twitter:image" content="{{ image.path }}">
+    <meta name="twitter:image" content="{{ image.absoluteImgPath }}">
     <meta name="twitter:image:alt" content="{{ image.basicMeta.description }}">
 
     <!-- Open Graph -->
@@ -24,7 +24,8 @@
         {% set height = null %}
     {% endif %}
     <meta property="og:title" content="{{ image.basicMeta.title }}" />
-    <meta property="og:image" content="{{ image.path }}" />
+    <meta property="og:image" content="{{ image.absoluteImgPath }}" />
+    <meta property="og:url" content="{{ image.URI }}{{ path('update',{'id' : image.id, 'extension' : image.extension}) }}" />
     <meta property="og:image:type" content="{{ image.latestMeta['File:MIMEType'] }}" />
     <meta property="og:image:width" content="{{ width }}" />
     <meta property="og:image:height" content="{{ height }}" />
