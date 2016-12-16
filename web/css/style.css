@@ -179,21 +179,23 @@ form input[type=text] {
     margin-left: 5%;
 }
 
-#utilLinks {
-    height: 75px;
-}
-
 #utilLinks h3 {
     margin-bottom: 15px;
 }
 
+#utilLinks div {
+    display: flex;
+    justify-content: center;
+}
+
 #utilLinks a {
+    display: flex;
+    align-items: center;
     border: 1px solid #aa0022;
     color: #FFF;
     background-color: #aa0022;
     cursor: pointer;
-    margin: 10px 5px;
-    width: 50%;
+    margin: 5px;
     padding: 10px;
     transition: background-color .5s, color .5s;
 }
@@ -335,7 +337,7 @@ button[type=submit]:hover, #utilLinks a:hover {
         float: none;
         margin: auto;
     }
-    
+
     #menu ul li {
         width: 100%;
     }

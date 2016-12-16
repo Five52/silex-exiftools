@@ -11,7 +11,7 @@ use ExifTools\ExifTools;
 use ExifTools\Image;
 use ExifTools\ImageDAO;
 
-$app->match('/', function(Request $request) use ($app) {
+$app->get('/', function(Request $request) use ($app) {
 
     return $app->render('index.html.twig', array(
         'images' => ImageDAO::getAll()
@@ -77,7 +77,7 @@ $app->match(
         $image = ImageDAO::get($id, $extension);
         $meta = $image->getLatestMeta();
 
-        // Transform array data to a string for the form 
+        // Transform array data to a string for the form
         foreach ($meta as $key => $value) {
             if (is_array($value)) {
                 $meta[$key] = implode(', ', $value);
@@ -100,7 +100,7 @@ $app->match(
             $data = $form->getData();
             $image->updateMeta($data);
 
-            $app['session']->getFlashBag()->add('update', 'Métadonnées mises à jour !');
+            $app['session']->getFlashBag()->add('message', 'Métadonnées mises à jour !');
             return $app->redirect($app->path('update', [
                 'id' => $image->getId(),
                 'extension' => $image->getExtension()
@@ -109,14 +109,128 @@ $app->match(
 
         return $app->render('update.html.twig', [
             'form' => $form->createView(),
-            'image' => $image
+            'image' => $image,
+            'utilLinks' => generateUtilLinks($app, $image)
         ]);
     }, 'GET|POST'
 )
 ->bind('update');
 
-$app->match('/about', function(Request $request) use ($app) {
+$app->match(
+    '/{id}_{extension}/delete',
+    function($id, $extension, Request $request) use ($app) {
+        $image = ImageDAO::get($id, $extension);
 
+        $form = $app->form()->getForm();
+        $form->handleRequest($request);
+        if ($request->isMethod('POST') && $form->isValid()) {
+            ImageDAO::delete($image);
+            $app['session']->getFlashBag()->add('message', "L'image a été supprimée !");
+            return $app->redirect($app->path('home'));
+        }
+
+        return $app->render('delete.html.twig', [
+            'form' => $form->createView(),
+            'image' => $image
+        ]);
+    }, 'GET|POST'
+)
+->bind('delete');
+
+$app->match(
+    '/{id}_{extension}/reset',
+    function($id, $extension, Request $request) use ($app) {
+        $image = ImageDAO::get($id, $extension);
+
+        $form = $app->form()->getForm();
+        $form->handleRequest($request);
+        if ($request->isMethod('POST') && $form->isValid()) {
+            $image->resetOriginalMeta();
+            $app['session']->getFlashBag()->add('message', "Les métadonnées ont été réinitialisées !");
+            return $app->redirect($app->path('update', [
+                'id' => $image->getId(),
+                'extension' => $image->getExtension()
+            ]));
+        }
+
+        return $app->render('reset.html.twig', [
+            'form' => $form->createView(),
+            'image' => $image
+        ]);
+    }, 'GET|POST'
+)
+->bind('reset');
+
+$app->match(
+    '/{id}_{extension}/undo',
+    function($id, $extension, Request $request) use ($app) {
+        $image = ImageDAO::get($id, $extension);
+
+        $form = $app->form()->getForm();
+        $form->handleRequest($request);
+        if ($request->isMethod('POST') && $form->isValid()) {
+            $image->resetLastMeta();
+            $app['session']->getFlashBag()->add('message', "Les métadonnées ont été remises à l'ancienne version !");
+            return $app->redirect($app->path('update', [
+                'id' => $image->getId(),
+                'extension' => $image->getExtension()
+            ]));
+        }
+
+        return $app->render('undo.html.twig', [
+            'form' => $form->createView(),
+            'image' => $image
+        ]);
+    }, 'GET|POST'
+)
+->bind('undo');
+
+$app->get('/about', function(Request $request) use ($app) {
     return $app->render('about.html.twig');
 })
 ->bind('about');
+
+/**
+ * Generate util links
+ * @param App application for creating paths
+ * @param Image image
+ */
+function generateUtilLinks(App $app, Image $image) {
+    $links = [
+        [
+            'path' => $image->getPath(),
+            'name' => 'Image download',
+            'isDownload' => true
+        ], [
+            'path' => $image->getXmpPath(),
+            'name' => 'Metadata sidecar XMP download',
+            'isDownload' => true
+        ], [
+            'path' => $app->path('reset', [
+                'id' => $image->getId(),
+                'extension' => $image->getExtension()
+            ]),
+            'name' => 'Ré-insérer les metadonnées originales',
+            'isDownload' => false
+        ]
+    ];
+    if ($image->hasLatestMeta()) {
+        $links[] = [
+            'path' => $app->path('undo', [
+                'id' => $image->getId(),
+                'extension' => $image->getExtension()
+            ]),
+            'name' => 'Ré-insérer les dernières métadonnées',
+            'isDownload' => false
+        ];
+    }
+    $links[] = [
+        'path' => $app->path('delete', [
+            'id' => $image->getId(),
+            'extension' => $image->getExtension()
+        ]),
+        'name' => "Supprimer l'image",
+        'isDownload' => false
+    ];
+    return $links;
+}

@@ -7,17 +7,17 @@ class ImageDAO
     {
         $files = glob(Image::IMG_PATH . '/*');
         $images = [];
-        
+
         foreach ($files as $file) {
             $infos = preg_replace("/^.*\//", "", $file);
             $infos = explode('.', $infos);
-            
+
             if(array_key_exists(1, $infos)) {
                 $image = new Image();
                 $image->setId($infos[0])->setExtension($infos[1]);
-                $images[] = $image;    
-            }            
-            
+                $images[] = $image;
+            }
+
         }
         return $images;
     }
@@ -31,5 +31,10 @@ class ImageDAO
 
     public static function exists(Image $image) {
         return file_exists($image->getPath());
+    }
+
+    public static function delete(Image $image) {
+        unlink($image->getPath());
+        ExifTools::deleteMetaFiles($image);
     }
 }

@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Réinitialisation des métadonnées - {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <h2>Réinitialisation des métadonnées</h2>
+    <p>Etes-vous sûr de vouloir réinitialiser les métadonnées de cette image ?</p>
+
+    {% form_theme form 'form_errors.html.twig' %}
+
+    <form action="{{ path('reset', {'id': image.id, 'extension': image.extension}) }}" method="post">
+        <a href="{{ path('update', {'id': image.id, 'extension': image.extension}) }}">Retour à la page des détails</a>
+        <button type="submit">Réinitialiser</button>
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

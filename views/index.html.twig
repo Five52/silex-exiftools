@@ -6,6 +6,7 @@
 
 {% block main %}
     <h2>Accueil</h2>
+    {{ parent() }}
     <div id="home">
         {% for image in images  %}
             <figure>

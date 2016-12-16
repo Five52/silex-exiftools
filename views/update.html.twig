@@ -33,9 +33,7 @@
 
 {% block main %}
     <h2>Métadonnées de l'image</h2>
-    {% for message in app.session.flashbag.get('update') %}
-        <div id="flash-message">{{ message }}</div>
-    {% endfor %}
+    {{ parent() }}
     <section id="displayImg">
         <h3 class="imgTitle">{{ image.basicMeta.title }}</h3>
         <figure>
@@ -58,13 +56,16 @@
         </figure>
         <div id="utilLinks">
             <h3>Utils links:</h3>
-            <a href="{{ image.path }}" download>Image download</a>
-            <a href="{{ image.xmpPath }}" download>Metadata sidecar XMP download</a>
+            <div>
+                {% for link in utilLinks %}
+                    <a href="{{ link.path }}" {% if link.isDownload %}download{% endif %}>{{ link.name }}</a>
+                {% endfor %}
+            </div>
         </div>
     </section>
     <section id="updateForm">
         {% form_theme form 'form_errors.html.twig' %}
-     
+
         {{ form(form, { 'attr': {'id': 'form-update'} }) }}
     </section>
 {% endblock %}

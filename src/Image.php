@@ -1,6 +1,9 @@
 <?php
 namespace ExifTools;
 
+/**
+ * Class representing an image
+ */
 class Image
 {
     const IMG_PATH = "../web/files/img";
@@ -59,6 +62,11 @@ class Image
         return null;
     }
 
+    public function hasLatestMeta()
+    {
+        return file_exists(ExifTools::META_PATH . $this->id . '.json.old');
+    }
+
     public function getLatestMeta()
     {
         if ($this->latestMeta === null) {
@@ -68,7 +76,7 @@ class Image
     }
 
     public function getBasicMeta()
-    {   
+    {
         if ($this->basicMeta === null) {
             $meta = self::getLatestMeta();
             $basicMeta = [];
@@ -117,6 +125,24 @@ class Image
         return ExifTools::generateXmpLink($this);
     }
 
+    public function resetOriginalMeta()
+    {
+        ExifTools::resetOriginalMeta($this);
+    }
+
+    public function resetLastMeta()
+    {
+        ExifTools::resetLastMeta($this);
+    }
+
+    /**
+     * Update the image metadata.
+     * Specific fields need to be changed back to array,
+     * then the whole set is sent to ExifTools to insert them in the image
+     * and update the json files.
+     *
+     * @param <array> the metadata
+     */
     public function updateMeta(array $meta) {
         $dataToClean = ['XMP:Subject','IPTC:Keywords'];
         foreach($dataToClean as $key) {
