@@ -1,6 +1,6 @@
 # silex-exiftools
-Our silex-exiftools project is a group project involving Evrard Carron, Thomas Fortin and Pierre Labadille, students in M2-DNR2i from the University of Caen.
-The goal of this project is to create a web galery supporting metadata editing. It also have some improvements like module google maps witch locate every picture in a map or Flikr module witch let the user to search on Flikr similar pictures.
+Our silex-exiftools project is a group project involving [`Evrard Carron`](https://github.com/Five52/), [`Thomas Fortin`](https://github.com/ThomasFortin/) and [`Pierre Labadille`](https://github.com/plabadille/), students in M2-DNR2i from the University of Caen.
+The goal of this project is to create a web gallery supporting metadata editing. It also have some improvements like module google maps which locate every picture in a map or Flickr module which let the user to search on Flickr similar pictures.
 
 This project was proposed by Jean-Marc Lecarpentier, teacher from the University of Caen.
 
@@ -26,7 +26,7 @@ Make sure you install the depencies (exiftool has to be installed and accessible
 Clone the repository
 ```
 git clone https://github.com/Five52/silex-exiftools
-cd feelingAnalysisSMCaen
+cd silex-exiftools
 composer install
 ```
 
