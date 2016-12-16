@@ -5,15 +5,19 @@ The goal of this project is to create a web galery supporting metadata editing. 
 This project was proposed by Jean-Marc Lecarpentier, teacher from the University of Caen.
 
 ## Screens
-Home:
+
+### Home:
+
 ![](media/screenHome.png)
-Image detail:
+
+### Image detail:
+
 ![](media/screenDetail.png)
 
 ## Dependencies
 
-[`Composer`](https://getcomposer.org/) 
-[`Exiftool`](http://www.sno.phy.queensu.ca/~phil/exiftool/) 
+* [`Composer`](https://getcomposer.org/) 
+* [`Exiftool`](http://www.sno.phy.queensu.ca/~phil/exiftool/) 
 
 ## Installing
 
