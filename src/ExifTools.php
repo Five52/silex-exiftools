@@ -105,7 +105,7 @@ class ExifTools
     }
 
     /**
-     * Static method to restaure last metadata of the image.
+     * Static method to restore last metadata of the image.
      * @param <Image>instance of the target image
      * @throws specific exception if doesn't find img or json file.
      */
@@ -121,6 +121,7 @@ class ExifTools
                 $command = "exiftool -j=" . $jsonOldPath . " -G -m -overwrite_original " . $img->getPath();
                 copy($jsonOldPath, $jsonActualPath);
                 exec($command);
+                unlink($jsonOldPath);
             } else {
                 throw new \Exception("Error, json file doesn't exist");
             }

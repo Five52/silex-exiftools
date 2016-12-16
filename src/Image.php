@@ -62,6 +62,11 @@ class Image
         return null;
     }
 
+    public function hasLatestMeta()
+    {
+        return file_exists(ExifTools::META_PATH . $this->id . '.json.old');
+    }
+
     public function getLatestMeta()
     {
         if ($this->latestMeta === null) {
