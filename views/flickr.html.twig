@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Flickr - {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <h2>Recherche Flickr</h2>
+    {% if not image.tags %}
+        <p>Définissez des mots-clés dans XMP:Subject ou IPTC:Keywords pour la recherche Flickr.</p>
+    {% endif %}
+{% endblock %}
+
+{% if image.tags %}
+    {% block javascript %}
+        <script>
+            var tags = '{{ image.tags }}';
+        </script>
+        <script src="{{ root }}js/flickr.js"></script>
+    {% endblock %}
+{% endif %}

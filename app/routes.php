@@ -190,6 +190,15 @@ $app->get('/about', function(Request $request) use ($app) {
 })
 ->bind('about');
 
+$app->get('/{id}_{extension}/flickr',
+    function($id, $extension, Request $request) use ($app) {
+        $image = ImageDAO::get($id, $extension);
+        return $app->render('flickr.html.twig', [
+            'image' => $image
+        ]);
+})
+->bind('flickr');
+
 /**
  * Generate util links
  * @param App application for creating paths
@@ -198,6 +207,13 @@ $app->get('/about', function(Request $request) use ($app) {
 function generateUtilLinks(App $app, Image $image) {
     $links = [
         [
+            'path' => $app->path('flickr', [
+                'id' => $image->getId(),
+                'extension' => $image->getExtension()
+            ]),
+            'name' => "Recherche Flickr",
+            'isDownload' => false
+        ], [
             'path' => $image->getPath(),
             'name' => 'Image download',
             'isDownload' => true
@@ -205,13 +221,6 @@ function generateUtilLinks(App $app, Image $image) {
             'path' => $image->getXmpPath(),
             'name' => 'Metadata sidecar XMP download',
             'isDownload' => true
-        ], [
-            'path' => $app->path('reset', [
-                'id' => $image->getId(),
-                'extension' => $image->getExtension()
-            ]),
-            'name' => 'Ré-insérer les metadonnées originales',
-            'isDownload' => false
         ]
     ];
     if ($image->hasLatestMeta()) {
@@ -224,6 +233,14 @@ function generateUtilLinks(App $app, Image $image) {
             'isDownload' => false
         ];
     }
+    $links[] = [
+        'path' => $app->path('reset', [
+            'id' => $image->getId(),
+            'extension' => $image->getExtension()
+        ]),
+        'name' => 'Ré-insérer les metadonnées originales',
+        'isDownload' => false
+    ];
     $links[] = [
         'path' => $app->path('delete', [
             'id' => $image->getId(),

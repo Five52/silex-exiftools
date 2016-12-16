@@ -1,7 +1,6 @@
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     font-family: "Roboto";
 }
 
@@ -253,7 +252,7 @@ form input[type=text] {
     transition: background-color .5s, color .5s;
 }
 
-button[type=submit] {
+button[type=submit], button#more {
     border: 1px solid #aa0022;
     font-size: 18px;
     color: #FFF;
@@ -266,8 +265,12 @@ button[type=submit] {
     transition: background-color .5s, color .5s;
 }
 
+button#more {
+    margin-top: 30px;
+}
+
 .lock::after {
-    content: "🔒";
+    content: "🔒"
     margin-left: 10px;
     height: 19px;
     color: #aa0022;
@@ -317,7 +320,7 @@ button[type=submit] {
     background-color: #f0f0f0;
 }
 
-button[type=submit]:hover, #utilLinks a:hover {
+button[type=submit]:hover, button#more:hover, #utilLinks a:hover {
     color: #aa0022;
     background-color: #FFF;
 }
@@ -384,7 +387,7 @@ button[type=submit]:hover, #utilLinks a:hover {
 }
 
 #about ul li ul li ul li {
-    list-style-type: hebrew; 
+    list-style-type: hebrew;
 }
 
 #about ul li ul li ul li:before {

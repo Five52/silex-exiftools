@@ -63,7 +63,7 @@ class Image
      * @return <array> containing category name
      */
     public function getMetaCategory()
-    {   
+    {
         $categories = [];
         $meta = self::getLatestMeta();
         foreach ($meta as $key => $value) {
@@ -79,7 +79,7 @@ class Image
 
     public function getLocation()
     {
-        $meta = self::getLatestMeta();
+        $meta =  self::getLatestMeta();
 
         if (array_key_exists('XMP:Location', $meta)) {
             return $meta['XMP:Location'];
@@ -191,5 +191,20 @@ class Image
             }
         }
         ExifTools::setImgMeta([$meta], $this);
+    }
+
+    /**
+     * Get all possible keywords from image
+     * @return string
+     */
+    public function getTags() {
+        $meta = $this->getLatestMeta();
+        if (array_key_exists('XMP:Subject', $meta)) {
+            return str_replace(' ', ',', implode(',', $meta['XMP:Subject']));
+        } elseif (array_key_exists('IPTC:Keywords', $meta)) {
+            return str_replace(' ', ',', implode($meta['IPTC:Keywords']));
+        } else {
+            return '';
+        }
     }
 }
