@@ -87,6 +87,34 @@ h2 {
     border-bottom: 1px solid #aa0022;
 }
 
+#scroll-top, #scroll-bottom {
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    right: 50px;
+    opacity: 0.8;
+    font-size: 25px;
+    text-align: center;
+    cursor: pointer;
+    color: #FFF;
+    background-color: #aa0022;
+    opacity: .5;
+    padding: 10px;
+    display: none;
+}
+
+#scroll-top:hover, #scroll-bottom:hover {
+    opacity: 1;
+}
+
+#scroll-top {
+    bottom: 125px;
+}
+
+#scroll-bottom {
+    bottom: 50px;
+}
+
 #home {
     margin: auto;
     width: 95%;
@@ -177,6 +205,10 @@ form input[type=text] {
 #form > div {
     margin: 20px;
     margin-left: 5%;
+}
+
+#utilLinks {
+    padding-top: 20px;
 }
 
 #utilLinks h3 {

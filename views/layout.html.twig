@@ -17,11 +17,15 @@
 <body>
     {% include 'partials/header.html.twig' %}
     <main>
+        <div id="haut"></div>
         {% block main %}
             {% for message in app.session.flashbag.get('message') %}
                 <div id="flash-message">{{ message }}</div>
             {% endfor %}
         {% endblock %}
+    <a href="#haut" title="Haut de page" id="scroll-top">&#8593;</a>
+    <a href="#bas" title="Bas de page" id="scroll-bottom">&#8595;</a>
+    <div id="bas"></div>
     </main>
     {% block javascript %}{% endblock %}
 </body>
