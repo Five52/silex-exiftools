@@ -354,6 +354,15 @@ button[type=submit]:hover, #utilLinks a:hover {
     content: "\2192\0020";
 }
 
+footer {
+    color: #FFF;
+    background-color: #aa0022;
+    text-align: center;
+    width: 100%;
+    padding: 15px 0;
+    font-weight: bold;
+}
+
 /* RESPONSIVE */
 
 @media screen and (max-width: 1100px) {
