@@ -353,6 +353,10 @@ button[type=submit]:hover, #utilLinks a:hover {
     color: #aa0022;
 }
 
+#about h3, #about h4 {
+    padding-top: 15px;
+}
+
 #about > * {
     margin: 15px 0;
 }
@@ -375,6 +379,17 @@ button[type=submit]:hover, #utilLinks a:hover {
     content: "\2192\0020";
 }
 
+#about ul li ul li ul {
+    margin-left:  35px;
+}
+
+#about ul li ul li ul li {
+    list-style-type: hebrew; 
+}
+
+#about ul li ul li ul li:before {
+    content:  "";
+}
 footer {
     color: #FFF;
     background-color: #aa0022;

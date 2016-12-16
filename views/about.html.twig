@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block main %}
-    <h2>A propos</h2>
+    <h2>À propos</h2>
     <div id="about">
         <p>
-            Meta-Data est un galerie d'images ayant pour but de visualiser et modifier les méta-données de celles-ci. Cette galerie est disponible sur  <a href="https://github.com/Five52/silex-exiftools">GitHub</a>
+            Meta-Data est un galerie d'images ayant pour but de visualiser et modifier les méta-données de celles-ci. Cette galerie est disponible sur  <a href="https://github.com/Five52/silex-exiftools">GitHub</a> (les instructions d'installation y sont indiquées).
         </p>
         <p>
             Ce projet a été réalisé lors du Master 2 DNR2i à l'Université de Caen. Le groupe de travail est constitué de :
@@ -19,22 +19,29 @@
             <li><a href="https://github.com/ThomasFortin">Thomas Fortin (21410746)</a></li>
             <li><a href="https://github.com/plabadille">Pierre Labadille (21101555)</a></li>
         </ul>
-        <p>
-            Les points suivants ont été développés :
-        </p>
+
+        <h3>Points développés:</h3>
         <ul>
             <li>
-                Page de l'image :
+                Page de de détail d'une image :
                 <ul>
-                    <li>affichage de l'image</li>
-                    <li>affichage et modification des métadonnées avec exiftool</li>
-                    <li>téléchargement de l'image</li>
-                    <li>téléchargement du fichier XMP Sidecar</li>
-                    <li>métadonnées Microdata, Open Graph et Twitter Cards dans la page de détails</li>
+                    <li>affichage de l'image, son titre, son créateur et sa licence</li>
+                    <li>affichage des métadonnées (préalablement extraite par exiftool) de l'image sous forme de formulaire</li>
+                    <li>édition des métadonnées d'une image avec exiftool</li>
+                    <li>génération d'un lien de téléchargement de l'image</li>
+                    <li>génération d'un lien de téléchargement du fichier XMP Sidecar de l'image</li>
+                    <li>génération dynamique des métadonnées Microdata, Open Graph et Twitter Cards</li>
+                    <li>gestion des incohérences et proposition de normalisation automatique sans changement de page</li>
+                    <li>liens de navigation rapide vers chaque catégorie de métadonnée</li>
+                    <li>verouillage des champs ne pouvant être modifié ou qui ne sont pas pertinent à être modifié</li>
+                    <li>lien vers une page permettant de rechercher des images associées sur Flickr puis de retourner vers la page de détail de l'image</li>
+                    <li>génération d'un lien permettant de rétablir les métadonnées originales de l'image</li>
+                    <li>génération d'un lien permettant de revenir à la version antérieure des métadonnées d'une image</li>
+                    <li>possibilité de supprimer une image et toute ses métadonnées associées par le biais d'un bouton</li>
                 </ul>
             </li>
             <li>
-                Ajout d'une image :
+                Page dajout d'une image :
                 <ul>
                     <li>ajout d'une image dans la galerie</li>
                     <li>génération des métadonnées et redirection vers la page de détails</li>
@@ -44,9 +51,76 @@
                 Page d'accueil :
                 <ul>
                     <li>galerie des photos</li>
-                    <li></li>
+                    <li>avec affichage des photos, titres et auteurs</li>
+                    <li>lien vers la page de détail d'une image</li>
+                </ul>
+            </li>
+            <li>
+                Page map :
+                <ul>
+                    <li>affichage des locations des images sur une carte</li>
+                    <li>affichage de l'image, titre et descrition lorsque l'on clique sur un des points de la carte</li>
+                </ul>
+            </li>
+            <li>
+                Points globaux :
+                <ul>
+                    <li>affichage de scroller haut de page et bas de page si la hauteur de la fenêtre est inférieur à 1.5 fois la hauteur totale de la page.</li>
+                    <li>Les métadonnées ne sont extraite de l'image que lorsque celà est nécessaire (ajout et mise à jour)</li>
                 </ul>
             </li>
         </ul>
+
+        <h3>Détails techniques:</h3>
+        <ul>
+            <li>
+                Technologies:
+                <ul>
+                    <li>Framework: Silex</li>
+                    <li>Base de donnée: aucune</li>
+                    <li>Moteur de template: Twig</li>
+                    <li>Langages: Php, JavaScript, Css, Html (+twig)</li>
+                    <li>Software: exifTool</li>
+                    <li>Api: Flickr, GoogleMaps</li>
+                    <li>Versionage: Git</li>
+                </ul>
+            </li>
+            <li>
+                Spec:
+                <ul>
+                    <li>Logique objet</li>
+                    <li>Autoload et namespace</li>
+                    <li>Gestion des routes</li>
+                    <li>Gestion des erreurs</li>
+                    <li>Design responsive</li>
+                </ul>
+            </li>
+            <li>
+                Choix techniques:
+                <ul>
+                    <li>Afin de ne charger qu'une seule fois nos métadonnées, nous générons/travaillons à partir de fichier json (dans nous conservons entre 2 et 3 versions afin de permettre un retour en arrière si souhaité).</li>
+                    <li>Nous n'utilisons pas l'API php d'exifTool mais directement le logiciel en bash (l'API proposant moins de fonctionnalités)</li>
+                    <li>
+                        Nous avons décidé d'appliquer notre gestion des incohérences (lors de l'édition de métadonnées) directement en front en JavaScript. Il y a trois raisons à celà:
+                        <ul>
+                            <li>nous avons jugé qu'il serait plus ergonomique pour l'utilisateur d'avoir cette information directement dans la même page</li>
+                            <li>nous avons souhaité laissé le choix à l'utilisateur de stocker des métadonnées incohérentes dans son image s'il le souhaite</li>
+                            <li>nous avons souhaité laisser la possibilité à l'utilisateur de gérer les incohérences lui-même</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Screen de validation TwitterCard & FacebookGraph</h3>
+        <p>Les outils de validation de métadonnées ont besoin d'une URL accessible, ce qui n'est pas le cas des serveurs dev de la fac (ni prod...). Nous avons donc copié les métadonnées générée automatiquement dans un simple fichier html sur un domaine personnel afin de pouvoir les tester.</p>
+
+        <h4>Validation TwitterCard:</h4>
+        <p>Test réalisé via le <a href="https://cards-dev.twitter.com/validator" target="blank">validateur Twitter</a></p>
+        <img src="../media/twitterCardSample.png" alt="twitterCardSample" />
+
+        <h4>Validation FacebookGraph:</h4>
+        <p>Test réalisé via le <a href="https://developers.facebook.com/tools/debug" target="blank">validateur Facebook</a></p>
+        <img src="../media/facebookCardSample.png" alt="twitterCardSample" />
     </div>        
 {% endblock %}
