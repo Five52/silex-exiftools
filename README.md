@@ -26,7 +26,7 @@ Make sure you install the depencies (exiftool has to be installed and accessible
 Clone the repository
 ```
 git clone https://github.com/Five52/silex-exiftools
-cd feelingAnalysisSMCaen
+cd silex-exiftools
 composer install
 ```
 
