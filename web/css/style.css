@@ -273,7 +273,7 @@ button#more {
 }
 
 .lock::after {
-    content: "🔒"
+    content: "🔒";
     margin-left: 10px;
     height: 19px;
     color: #aa0022;
@@ -390,7 +390,7 @@ button[type=submit]:hover, button#more:hover, #utilLinks a:hover, #flickr-back a
 }
 
 #about ul li ul li ul li {
-    list-style-type: hebrew;
+    list-style-type: square;
 }
 
 #about ul li ul li ul li:before {
